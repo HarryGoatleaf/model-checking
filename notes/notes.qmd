@@ -1,0 +1,149 @@
+---
+title: "Model Checking"
+format:
+  html:
+    theme: darkly
+    toc: true
+    toc-depth: 3
+    self-contained: true
+---
+## Transition Systems
+
+Intuition
+
+Program | Automaton
+:------:|:--------:
+state | nodes
+stepwise behaviour | transition
+possible preconditions | init states
+communication | actions 
+atomic propositions | state properties
+
+::: {#def-transition-system}
+### Transition System
+
+Formaly a transition system $T$ is a tuple $(S, Act, \rightarrow, S_0, AP, L)$
+where
+
+* $S$ countable set of **states**
+* $Act$ set of **actions**
+* $\rightarrow \ \subseteq S \times Act \times S$ a **transition relation**
+* $S_0 \subseteq S$ a set of **initial states**
+* set of **atomic propositions** $AP$ with
+* a **labeling function** $L : S \rightarrow 2^{AP}$ that assigns propositions to each state
+:::
+
+::: {.callout-info}
+### Differences to finite automata
+* Possibly infinity state space.
+* No accepting states.
+* Multiple initial states.
+:::
+
+Execution Fragment
+: An execution fragment of a transition system is an alternating sequence
+  <!-- infinite??? -->
+  sequence of states and actions:
+$$ \rho = s_0 \alpha_1 s_1 \alpha_2 \ ... \text{ such that } s_i \xrightarrow{\alpha_{i+1}} s_{i+1}$$
+
+Maximal
+: An execution fragment is maximal iff. it is infinite or it is ending in a terminal state.
+
+Initial
+: An execution fragment is initial iff. it starts in an initial state.
+
+Execution
+: An execution is an initial & maximal execution fragment. (corresponds to run on automata)
+
+Path
+: Let $s_0 \alpha_1 s_1 ...$ be an execution, then $s_0s_1 ...$ is a path.
+  In other words a path is the sequence of states of an execution.
+
+Reachable fragment
+: $Reach(T)$ set of states that appear on some path.
+
+Trace
+: Let $s_0s_1...$ be a path, then $L(s_0)L(s_1)...$ is a trace.
+  In other words a trace is the sequence of atomic propositions that hold along a path.
+
+### Program Graph
+
+Program graphs are an abstraction of (imperative) programs.
+
+::: {#def-program-graph}
+#### Program Graph
+
+A program graph is a tuple
+$$(Loc, Act, Effect, \hookrightarrow, Loc_0, g_0)$$
+
+where
+
+* $Loc$ is a set of **locations** (roughtly corresponds to code lines)
+* $Act$ is a set of **actions**
+* $Effect: Act \times Eval(Var) \rightarrow Eval(Var)$ models the **effect** of actions
+* $\hookrightarrow \subseteq Loc \times Cond(Var) \times Act \times Loc$ is the **edge relation**
+* $g_0 \in Cond(Var)$ is the **initial condition**
+:::
+
+### Translating Program Graphs to Transition Systems
+
+Let $PG = (Loc, Act, Effect, \hookrightarrow, Loc_0, g_0)$ be a program graph.
+Then this can be modeled by the transition system $(S, Act, \rightarrow I, AP, L)$ where
+
+* $S = Loc \times Eval(Var)$
+* $\rightarrow \subseteq S \times Act \times S$ can be deduced by the following rule
+  $$\frac{l \xhookrightarrow{g:\alpha} l' \land \eta \models g} 
+  {\langle l, \eta \rangle \xrightarrow{\alpha} \langle l', Effect(\alpha, \eta) \rangle} $$
+* $I = \{ \langle l, \eta \rangle | l \in Loc_0, \eta \models g_0 \}$
+* $L( \langle l, \eta \rangle) = \{l\} \cup \{g \in Cond(Var) | \eta \models g \}$
+
+### Interleaving
+
+We can model multi-threaded execution **without shared variables** by interleaving the transition systems.
+
+::: {#def-interleaving-trans}
+#### Interleaving transition systems
+
+Let $TS_1, TS_2$ be two transition systems.
+Then
+$$TS_1 \ ||| \ TS_2 := (S_1 \times S_2, Act_1 \uplus Act_2, \rightarrow, I_1 \times I_2, AP_1 \uplus AP_2, L)$$
+
+* $L(\langle s_1, s_2 \rangle) = L_1(s_1) \cup L_2(s_2)$
+* And $\rightarrow$ can be deduced by the following rule:
+  $$ 
+  \frac{s_1 \xrightarrow{\alpha} s_1'} 
+  {\langle s_1, \textcolor{gray}{s_2} \rangle \xrightarrow{\alpha} \langle s_1', \textcolor{gray}{s_2}\rangle}
+  \text{ and }
+  \frac{s_2 \xrightarrow{\alpha} s_2'} 
+  {\langle \textcolor{gray}{s_1}, s_2 \rangle \xrightarrow{\alpha} \langle \textcolor{gray}{s_1}, s_2'\rangle}
+  $$
+:::
+
+We can model multi-threaded execution **with shared variables** by interleaving the program graphs.
+
+::: {#def-interleaving-prog}
+#### Interleaving program graphs
+
+Let $PG_1, PG_2$ be two program graphs over the **same variables**. Then
+$PG_1 \ ||| \ PG_2 := (Loc_1 \times Loc_2, Act_1 \uplus Act_2, Effect, \hookrightarrow,$ \
+$Loc_{0,1} \uplus Loc_{0,2}, g_{0, 1} \land g_{0, 2})$
+
+* $Effect(\alpha, \eta) = Effect_i(\alpha, \eta)$ for $\alpha \in Act_i$.
+* And $\hookrightarrow$ can be deduced by the following rule:
+  $$ 
+  \frac{l_1 \xhookrightarrow{g:\alpha} l_1'} 
+  {\langle l_1, \textcolor{gray}{l_2} \rangle \xhookrightarrow{g:\alpha} \langle l_1', \textcolor{gray}{l_2}\rangle}
+  \text{ and }
+  \frac{l_2 \xhookrightarrow{g:\alpha} l_2'} 
+  {\langle \textcolor{gray}{l_1}, l_2 \rangle \xhookrightarrow{g:\alpha} \langle \textcolor{gray}{l_1}, l_2'\rangle}
+  $$
+:::
+
+::: {.callout-important}
+In general it **does not hold** that $TS(PG_1) \ ||| \ TS(PG_1) = TS(PG_1 \ ||| \ PG_2)$
+:::
+
+::: {.callout-warning}
+#### State Explosion Problem
+State space grows **exponentially** with number of **threads** and **variables**.
+:::
