@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.8.13)  19 APR 2022 16:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.8.13)  19 APR 2022 16:35
 entering extended mode
 **./Abgabe01.tex
 (Abgabe01.tex
@@ -1005,24 +1005,24 @@ File: l3backend-pdftex.def 2021-05-07 L3 backend support: PDF output (pdfTeX)
 ) (Abgabe01.aux)
 \openout1 = `Abgabe01.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1058,7 +1058,7 @@ LaTeX Font Info:    ... okay on input line 70.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 70.
+Package hyperref Info: Link coloring ON on input line 71.
 
 (C:\Users\Khulan Bayarkhuu\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nam
 eref.sty
@@ -1074,9 +1074,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count326
 )
-LaTeX Info: Redefining \ref on input line 70.
-LaTeX Info: Redefining \pageref on input line 70.
-LaTeX Info: Redefining \nameref on input line 70.
+LaTeX Info: Redefining \ref on input line 71.
+LaTeX Info: Redefining \pageref on input line 71.
+LaTeX Info: Redefining \nameref on input line 71.
  (Abgabe01.out) (Abgabe01.out)
 \@outlinefile=\write4
 \openout4 = `Abgabe01.out'.
@@ -1088,7 +1088,7 @@ Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message adding:
 (scrartcl)             \usepackage{bookmark}
-(scrartcl)           before \begin{document} on input line 70.
+(scrartcl)           before \begin{document} on input line 71.
 
 (C:\Users\Khulan Bayarkhuu\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\boo
 kmark.sty
@@ -1099,14 +1099,14 @@ Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
 \BKM@id=\count327
 ))
-LaTeX Info: Redefining \microtypecontext on input line 70.
+LaTeX Info: Redefining \microtypecontext on input line 71.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 70.
+LaTeX Info: Redefining \showhyphens on input line 71.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1145,7 +1145,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 78.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 79.
 
 
 (C:\Users\Khulan Bayarkhuu\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\ums
@@ -1156,7 +1156,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 -msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 78.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 79.
 
 
 (C:\Users\Khulan Bayarkhuu\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\ums
@@ -1166,17 +1166,40 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (C:\Users\Khulan Bayarkhuu\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt
 -msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) [1{C:/Users/Khulan Bayarkhuu/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+)
+<t3a.png, id=6, 315.1775pt x 272.01625pt>
+File: t3a.png Graphic file (type png)
+<use t3a.png>
+Package pdftex.def Info: t3a.png  used on input line 101.
+(pdftex.def)             Requested size: 241.84843pt x 208.73094pt.
+<t3b.png, id=8, 325.215pt x 283.0575pt>
+File: t3b.png Graphic file (type png)
+<use t3b.png>
+Package pdftex.def Info: t3b.png  used on input line 107.
+(pdftex.def)             Requested size: 241.84843pt x 210.50447pt.
 
-] (Abgabe01.aux)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<t3c.png, id=9, 771.88374pt x 243.91125pt>
+File: t3c.png Graphic file (type png)
+<use t3c.png>
+Package pdftex.def Info: t3c.png  used on input line 113.
+(pdftex.def)             Requested size: 241.84843pt x 76.42305pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1{C:/Users/Khulan Bayarkhuu/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+
+ <./t3a.png>] [2 <./t3b.png> <./t3c.png>] (Abgabe01.aux)
 Package rerunfilecheck Info: File `Abgabe01.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 27883 strings out of 478864
- 555008 string characters out of 2843410
- 1047668 words of memory out of 3000000
- 45322 multiletter control sequences out of 15000+600000
+ 27922 strings out of 478864
+ 555443 string characters out of 2843410
+ 1048734 words of memory out of 3000000
+ 45356 multiletter control sequences out of 15000+600000
  411276 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  110i,20n,108p,10696b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1193,9 +1216,9 @@ arkhuu/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx10.pf
 b><C:/Users/Khulan Bayarkhuu/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb><C:/Users/Khulan Bayarkhuu/AppData/Local/Programs/MiKTeX/
 fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Abgabe01.pdf (1 page, 117234 bytes).
+Output written on Abgabe01.pdf (2 pages, 151600 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
- 6 named destinations out of 1000 (max. 500000)
- 18445 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 84 PDF objects out of 1000 (max. 8388607)
+ 10 named destinations out of 1000 (max. 500000)
+ 18460 words of extra memory for PDF output out of 20736 (max. 10000000)
 
