@@ -103,8 +103,8 @@
 		\item[e)] An example for a path in $TS_2$ is $\pi := (s_0, s_1, s_1, s_1, \dots)$ and therefore $trace(\pi)=\{a\}\{a\}\{a\}\dots$.
 		\item[f)]
 		\begin{itemize}
-			\item[(i)] $TS_2$ is not $AP-deterministic$, because the second condition does not hold: 
-			\item[(ii)] 
+			\item[(i)] $TS_2$ is not $AP-deterministic$, because the second condition does not hold: $| Post(s_2) \cap \{s' \in S \mid L(s')=A\} |= |\{s_0, s_1\} \cap \{s' \in S \mid L(s')=\alpha\}|= |\{s_0, s_1\}| = 2 \nleq 1$.
+			\item[(ii)] $TS_2$ is not $action-deterministic$, because the second condition does not hold for state $s_3$ and action $\beta$: $|Post(s_3, \beta)| = |\{ s_2, s_3\}| = 2 \nleq 1$.
 		\end{itemize}
 	\end{itemize}
 	
