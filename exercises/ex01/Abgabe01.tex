@@ -62,7 +62,7 @@
 	SoSe 2022 \\\today}
 \chead{\Large Exercise Sheet 1}
 \ohead{Peter Reithofer, 394407 \\
-	   László Dirks, xxxxxx \\
+	   László Dirks, 398777 \\
 	   Khulan Bayarkhuu, 394604}
 
 	
@@ -71,7 +71,11 @@
 \begin{document}
 	
 	\section*{Exercise 1 (Open a Bank Account)}
+	Our friend performs tests for a few initial inputs. The input values seem to be chosen to cover edge cases regarding the amount of the initial deposit. However this does not deal with what happens with the deposit once it has been accepted to have a valid initial amount.
 	
+	In Line 2 of Algorithm 1 the user is free to "do something" with the deposit. This could mean that the user withdraws more than they deposited, leading to a negative balance. This case would not necessarily be detected by simply testing various initial inputs as it further depends on the possible actions of the user. 
+	
+	Model checking might allow us to detect such a flaw by reasoning about the entire possible state space and not only a few selected scenarios.
 	
 	\section*{Exercise 2 (Transition Systems)}
 	
