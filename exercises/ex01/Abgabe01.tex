@@ -76,7 +76,7 @@
 	\section*{Exercise 2 (Transition Systems)}
 	
 	\begin{itemize}
-		\item[a)] $ TS_1 = \bigl( \{s_0, s_1, s_2, s_3\}, \{\alpha,\beta, \gamma\}, \\
+		\item[a)] $ TS_1 = \bigl( \{s_0, s_1, s_2, s_3, s_4\}, \{\alpha,\beta, \gamma\}, \\
 		\{ (s_0, \alpha, s_2), (s_0, \gamma, s_1), (s_1, \gamma, s_1), (s_1, \alpha, s_3), (s_1, \beta, s_4), (s_2, \alpha, s_0), (s_2, \beta, s_4), (s_4, \alpha, s_2), (s_4, \gamma, s_3)\},\\
 		\{s_0\}, \bigl\{ \{a\}, \{b\}, \{a,b\} \bigr\}, L_1 \bigr)$\\
 		with $L_1: \bigl\{ \{s_0 \mapsto \{a\}, s_1 \mapsto \{a\}, s_2 \mapsto \{a,b\}, s_3 \mapsto \{b\}, s_4 \mapsto \{a,b\} \bigr\}$.
@@ -84,14 +84,24 @@
 		\item[c)]
 		\begin{itemize}
 			\item[(i)] $TS_1$ is $AP$-deterministic, because $\mid I \mid = \mid \{s_0\} \mid = 1 \leq 1$ and there are only at most 2 states $s$ and $s'$ for which $L(s)=L(s')$ holds: For these pairs $(s_0, s_1)$ with $L(s_0)=L(s_1)=\{a\}$ and $(s_2, s_4)$ which $L(s_2)=L(s_4)=\{a, b\}$ are never both in $Post(s'')$ for all $s'' \in S$.
-			
-			
 			%for the every $A$ for which holds $\{L(s')=A\} > 1$ except for $A \in \bigl\{ \{a\}, \{a,b\} \}$
-			\item[(ii)]
+			
+			\item[(ii)] $TS_1$ is also $action-deterministic$, because both conditions hold:
+			\begin{itemize}
+				\item $\mid I \mid = \mid \{s_0\} \leq 1$
+				\item $|Post(s_0, \alpha)| = |Post(s_0, \gamma)| = |Post(s_1, \alpha)| = |Post(s_1, \beta)|= |Post(s_1, \gamma)|= |Post(s_2, \alpha)| = |Post(s_2, \beta)| = |Post(s_4, \alpha)|= |Post(s_4, \gamma)| = 1$ and for every other pair $(s_i, \sigma)$ with $s_i \in \{s_0, s_1, s_2, s_3, s_4\}$ and $\sigma \in \{\alpha, \beta, \gamma\}$ holds $(s_i, \sigma)=0$.
+			\end{itemize}
 		\end{itemize}
-		\item[d)]
-		\item[e)]
+		\item[d)] $ TS_2 = \bigl( \{s_0, s_1, s_2, s_3\}, \{\alpha,\beta, \gamma\}, \\
+		\{ (s_0, \alpha, s_2), (s_0, \gamma, s_1), (s_1, \gamma, s_1), (s_1, \alpha, s_3), (s_1, \beta, s_2), (s_2, \alpha, s_0), (s_2, \beta, s_1), (s_3, \beta, s_2), (s_3, \beta, s_3) \}\\
+		\{s_0\}, \bigl\{ \{a\}, \{b\}, \{a,b\} \bigr\}, L_2 \bigr)$\\
+		with $L_2: \bigl\{ \{s_0 \mapsto \{a\}, s_1 \mapsto \{a\}, s_2 \mapsto \{a,b\}, s_3 \mapsto \{b\}\bigr\}$.
+		\item[e)] An example for a path in $TS_2$ is $\pi := (s_0, s_1, s_1, s_1, \dots)$ and therefore $trace(\pi)=\{a\}\{a\}\{a\}\dots$.
 		\item[f)]
+		\begin{itemize}
+			\item[(i)] $TS_2$ is not $AP-deterministic$, because the second condition does not hold: 
+			\item[(ii)] 
+		\end{itemize}
 	\end{itemize}
 	
 	\section*{Aufgabe 3 (Program Graphs)}

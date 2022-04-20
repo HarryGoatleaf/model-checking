@@ -1,0 +1,347 @@
+{
+    "__type__": "Deck",
+    "children": [],
+    "crowdanki_uuid": "027ce826-be6b-11ec-9617-7085c239892d",
+    "deck_config_uuid": "027ceeb6-be6b-11ec-9617-7085c239892d",
+    "deck_configurations": [
+        {
+            "__type__": "DeckConfig",
+            "autoplay": true,
+            "crowdanki_uuid": "027ceeb6-be6b-11ec-9617-7085c239892d",
+            "dyn": false,
+            "interdayLearningMix": 0,
+            "lapse": {
+                "delays": [
+                    10.0
+                ],
+                "leechAction": 0,
+                "leechFails": 8,
+                "minInt": 1,
+                "mult": 0.0
+            },
+            "maxTaken": 60,
+            "name": "Default",
+            "new": {
+                "bury": false,
+                "delays": [
+                    1.0,
+                    10.0
+                ],
+                "initialFactor": 2500,
+                "ints": [
+                    1,
+                    4,
+                    0
+                ],
+                "order": 1,
+                "perDay": 20,
+                "separate": true
+            },
+            "newGatherPriority": 0,
+            "newMix": 0,
+            "newPerDayMinimum": 0,
+            "newSortOrder": 0,
+            "replayq": true,
+            "rev": {
+                "bury": false,
+                "ease4": 1.3,
+                "fuzz": 0.05,
+                "hardFactor": 1.2,
+                "ivlFct": 1.0,
+                "maxIvl": 36500,
+                "minSpace": 1,
+                "perDay": 100
+            },
+            "reviewOrder": 0,
+            "timer": 0
+        }
+    ],
+    "desc": "",
+    "dyn": 0,
+    "extendNew": 0,
+    "extendRev": 0,
+    "media_files": [
+        "paste-40e5ca2aaea7d8cb3e650d719eb3572b28e623c3.jpg",
+        "paste-56c24de8cc797c53fd99fd4f7c451816b47ccbfb.jpg",
+        "paste-993aeb1ca5dec0b3fb1c5a63e626a6cabe01e413.jpg",
+        "paste-ecfa9adeb946fabdfd1ed1824830bdd5b4aa2520.jpg"
+    ],
+    "name": "ModelChecking",
+    "note_models": [
+        {
+            "__type__": "NoteModel",
+            "crowdanki_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}",
+            "flds": [
+                {
+                    "description": "",
+                    "font": "Arial",
+                    "media": [],
+                    "name": "Vorderseite",
+                    "ord": 0,
+                    "rtl": false,
+                    "size": 20,
+                    "sticky": false
+                },
+                {
+                    "description": "",
+                    "font": "Arial",
+                    "media": [],
+                    "name": "Rückseite",
+                    "ord": 1,
+                    "rtl": false,
+                    "size": 20,
+                    "sticky": false
+                }
+            ],
+            "latexPost": "\\end{document}",
+            "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+            "latexsvg": false,
+            "name": "Standard",
+            "req": [
+                [
+                    0,
+                    "any",
+                    [
+                        0
+                    ]
+                ]
+            ],
+            "sortf": 0,
+            "tags": [],
+            "tmpls": [
+                {
+                    "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Rückseite}}",
+                    "bafmt": "",
+                    "bfont": "Arial",
+                    "bqfmt": "",
+                    "bsize": 12,
+                    "did": null,
+                    "name": "Karte 1",
+                    "ord": 0,
+                    "qfmt": "{{Vorderseite}}"
+                }
+            ],
+            "type": 0,
+            "vers": []
+        }
+    ],
+    "notes": [
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is a transition system?",
+                "Formaly a transition system \\(T\\) is a tuple \\((S, Act, \\rightarrow, S_0, AP, L)\\)<br>where<br><ul><li>\\(S\\) countable set of <b>states</b></li><li>\\(Act\\) set of <b>actions</b></li><li>\\(\\rightarrow \\ \\subseteq S \\times Act \\times S\\) a <b>transition relation</b></li><li>\\(S_0 \\subseteq S\\) a set of <b>initial states</b></li><li> set of <b>atomic propositions</b> \\(AP\\) with</li><li> a <b>labeling function&nbsp;</b>\\(L : S \\rightarrow 2^{AP}\\) that assigns propositions to each state</li></ul>"
+            ],
+            "guid": "iox{z6Br=[",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is an Execution Fragment?",
+                "An execution fragment of a transition system is an alternating sequence  sequence of states and actions:&nbsp;\\(\\rho = s_0 \\alpha_1 s_1 \\alpha_2 \\ ... \\text{ such that } s_i \\xrightarrow{\\alpha_{i+1}} s_{i+1}\\)"
+            ],
+            "guid": "bJf}/}gh:>",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "When is an execution fragment maximal?",
+                "An execution fragment is maximal iff. it is infinite or it is ending in a terminal state."
+            ],
+            "guid": "sl#};oIMr{",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "When is an execution fragment initial?",
+                "An execution fragment is initial iff. it starts in an initial state."
+            ],
+            "guid": "Fg,~yKi?Ci",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "When is an execution fragment an execution?",
+                "An execution is an initial &amp; maximal execution fragment. (corresponds to run on automata)"
+            ],
+            "guid": "Ku,>ofQWi[",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "When is an execution fragment a path?",
+                "Let \\(s_0 \\alpha_1 s_1 ...\\) be an execution, then \\(s_0s_1 ...\\) is a path. <br><br>In other words a path is the sequence of states of an execution."
+            ],
+            "guid": "o7)!2}d/+^",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "When is a state \\(s\\) <b>reachable </b>in \\(TS\\)?",
+                "A state&nbsp;\\(s\\) is reachable in&nbsp;\\(TS\\)&nbsp;if s occurs in some execution of&nbsp;\\(TS\\)."
+            ],
+            "guid": "EY$F:-cD<:",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is a trace?",
+                "Let \\(s_0s_1...\\) be a path, then \\(L(s_0)L(s_1)...\\) over \\( (2^{AP}^{\\omega}) \\) is a trace. <br><br>In other words a trace is the sequence of atomic propositions that hold along a path."
+            ],
+            "guid": "ji+4.F*3iI",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is a <b>program graph</b>?",
+                "<img src=\"paste-40e5ca2aaea7d8cb3e650d719eb3572b28e623c3.jpg\">"
+            ],
+            "guid": "lvX1?#=rD&",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "How does one translate a Program Graph into a Transition System?",
+                "<img src=\"paste-ecfa9adeb946fabdfd1ed1824830bdd5b4aa2520.jpg\">"
+            ],
+            "guid": "yBP;Qj+{C<",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "For what is <b>interleaving </b>used for Transition Systems?",
+                "We can model multi-threaded execution <strong>without shared variables</strong> by interleaving the transition systems."
+            ],
+            "guid": "zMkZ|I:8.1",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "How is the I<b>nterleaving of transition systems</b> defined?",
+                "<img src=\"paste-56c24de8cc797c53fd99fd4f7c451816b47ccbfb.jpg\">"
+            ],
+            "guid": "f9&T!uR5aW",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "For what is interleaving fpr program graphs used?",
+                "We can model multi-threaded execution <strong>with shared variables</strong> by interleaving the program graphs."
+            ],
+            "guid": "u?zz:`#/|`",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "How is the Interleaving of program graph defined?",
+                "<img src=\"paste-993aeb1ca5dec0b3fb1c5a63e626a6cabe01e413.jpg\">"
+            ],
+            "guid": "P{We#r4U3>",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What problem is described with the State Expolision Problem?",
+                "State space grows <strong>exponentially</strong> with number of <strong>threads</strong> and <strong>variables</strong>."
+            ],
+            "guid": "lK!R@bkpf)",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What are the differences between TS and Finite Automata?",
+                "Transition System<br><ul><li>no accepting states</li><li>is not 'accepting' a (regular) language</li><li>may have countable infinite set of states and actions</li><li>may be infinitely branching</li><li>actions are used to 'glue' small transition systems</li><li>Most importantly: TS model reactive systems: systems that continuously interact with their environment</li></ul>"
+            ],
+            "guid": "IM-#W>KSNe",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is the interleaving of 2 TS's when they share no variables?",
+                "\\(TS(PG_1) \\ ||| \\ TS(PG_1)\\)"
+            ],
+            "guid": "L*;YB_eyj)",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is the interleaving of 2 TS's when they share some variables?",
+                "\\(TS(PG_1 \\ ||| \\ PG_2)\\)"
+            ],
+            "guid": "NdJczU)xv?",
+            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
+            "tags": [
+                "VL1+VL2"
+            ]
+        }
+    ]
+}
