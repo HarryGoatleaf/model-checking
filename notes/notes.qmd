@@ -7,6 +7,9 @@ format:
     toc-depth: 3
     self-contained: true
 ---
+
+\newcommand{\w}{\omega}
+
 ## Transition Systems
 
 Intuition
@@ -146,4 +149,125 @@ In general it **does not hold** that $TS(PG_1) \ ||| \ TS(PG_1) = TS(PG_1 \ ||| 
 ::: {.callout-warning}
 #### State Explosion Problem
 State space grows **exponentially** with number of **threads** and **variables**.
+:::
+
+## Linear Time Properties
+
+::: {#def-linear-time-property}
+### Linear Time Property
+A **linear-time property** over some atomic propositions $AP$ is a subset of 
+$\left(2^{AP}\right)^\omega$.
+
+A transitionsystem $TS$ satisfies a LT property $P$ 
+
+$$TS \models P \text{iff. } Traces(TS) \subseteq P$$
+:::
+
+Invariant
+: LT property that holds at all reachable states.
+
+Closure
+: For a LT property $P$ the closure contains all traces $t$ such that
+  for each prefix of $t$ a trace in $P$ has the same prefix.
+
+<!-- example -->
+
+::: {#def-safety-property}
+### Safety Property
+A LT property $S$ over AP is a **safety property** if for all
+$\sigma \in (2^{AP})^\omega \setminus S$
+we can find a "bad prefix" $\hat{\sigma}$
+such that no word in $S$ has prefix $\hat{\sigma}$
+
+$$ cl(S) = S $$
+:::
+
+Trace Equivalence != Finite Trace Equivalence
+
+::: {#def-liveness-property}
+### Liveness Property
+LT property $L$ over $AP$ is a **liveness property** iff.
+
+$$pref(L) = {2^{AP}}^*$$
+:::
+
+::: {#def-w-regular-expression}
+An $\w$-reglar expression has the form:
+
+$$G = E_1.F_1^\w + ... + E_n.F_n^\w$$
+
+where $E_i, F_i$ are regular expressions.
+:::
+
+::: {#thm-trace-inclusion-lt-properties}
+Let $TS, TS'$ be transition systems without terminal states:
+
+\begin{align}
+Traces(TS) \quad & \subseteq \quad Traces(TS') \\
+& \text{iff.} \\
+TS' \models P \quad & \Rightarrow \quad TS \models P 
+, \text{ for all LT-props } P\\
+\end{align}
+
+For **safety property** we know that:
+
+\begin{align}
+Traces_{fin}(TS) \quad & \subseteq \quad Traces_{fin}(TS') \\
+& \text{iff.} \\
+TS' \models P \quad & \Rightarrow \quad TS \models P 
+, \text{ for all \textbf{safety} props } P\\
+\end{align}
+
+:::
+
+::: {#cor-trace-equivalence}
+$Traces(TS) = Traces(TS')$ iff. $TS$ and $TS'$ satisfy the same LT properties and analogously \
+$Traces_{fin}(TS) = Traces_{fin}(TS')$ iff. $TS$ and $TS'$
+satisfy the same safety properties.
+:::
+
+::: {#lem-finite-image-trace}
+If $TS'$ is image finite (ger: endlich verzweigt) we know that:
+
+$$Traces(TS) \subseteq Traces(TS') \Leftrightarrow
+  Traces_{fin}(TS) \subseteq Traces_{fin}(TS')$$
+:::
+
+::: {#def-synchronous-product}
+Let:
+
+* $TS := (S, Act, \rightharpoonup, I, AP, L)$ without terminal states
+* $A := (Q, \Sigma, \rightharpoondown, Q_0, F)$ and NFA
+  * $\Sigma = 2^{AP}$ i.e. defines trace prefixes
+  * $Q_0 \cap F = \emptyset$
+
+Let $TS$ be a transition system without terminal states and \
+$A$ an NFA with $\Sigma = 2^{AP}$ and $Q_0 \cap F = \emptyset$
+
+Then:
+
+$$TS \otimes A := (S', Act, \rightarrow, I', AP', L')$$
+
+* $S' = S \times Q$
+* $AP' = Q$
+* $L'( \langle s, q \rangle) = \{q\}$
+* $\rightarrow$ can be deduced by:
+$$
+\frac
+  {s \xrightharpoonup{\alpha} \textcolor{orange}{t} \land 
+  q \xrightharpoondown{L(\textcolor{orange}{t})} p} 
+  {\langle {s}, {q} \rangle 
+  \xrightarrow{\alpha} 
+  \langle {\textcolor{orange}{t}}, {p} \rangle}
+$$
+* $I' =  \{ \langle s_0, q \rangle | s_0 \in I \land \exists q_0 \in Q_0 . q_0 \xrightharpoondown{L(s_0)} q \}$
+:::
+
+::: {#thm-verifying-regular-safety-properties}
+Let $TS$ be some transition system. $E_{safe}$ a safety property
+and $A$ an NFA that recognizes the bad prefixes of $E_{safe}$.
+Then:
+
+$$TS \models E_{safe} \Leftrightarrow TS \otimes A
+\text{ has no reachable accepting states}$$
 :::
