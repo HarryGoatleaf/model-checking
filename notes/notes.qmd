@@ -5,7 +5,7 @@ format:
     theme: darkly
     toc: true
     toc-depth: 3
-    self-contained: false
+    self-contained: true
 ---
 
 \newcommand{\w}{\omega}
