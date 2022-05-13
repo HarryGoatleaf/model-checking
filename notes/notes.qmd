@@ -5,7 +5,7 @@ format:
     theme: darkly
     toc: true
     toc-depth: 3
-    self-contained: true
+    self-contained: false
 ---
 
 \newcommand{\w}{\omega}
@@ -95,8 +95,7 @@ Then this can be modeled by the transition system $(S, Act, \rightarrow I, AP, L
 
 * $S = Loc \times Eval(Var)$
 * $\rightarrow \subseteq S \times Act \times S$ can be deduced by the following rule
-  $$\frac{l \xhookrightarrow{g:\alpha} l' \land \eta \models g} 
-  {\langle l, \eta \rangle \xrightarrow{\alpha} \langle l', Effect(\alpha, \eta) \rangle} $$
+  $$\frac{l \xhookrightarrow{g:\alpha} l' \land \eta \models g} {\langle l, \eta \rangle \xrightarrow{\alpha} \langle l', Effect(\alpha, \eta) \rangle}$$
 * $I = \{ \langle l, \eta \rangle | l \in Loc_0, \eta \models g_0 \}$
 * $L( \langle l, \eta \rangle) = \{l\} \cup \{g \in Cond(Var) | \eta \models g \}$
 
@@ -164,7 +163,12 @@ $$TS \models P \text{iff. } Traces(TS) \subseteq P$$
 :::
 
 Invariant
-: LT property that holds at all reachable states.
+: LT property of the form $A^\w$ for some $A \subseteq 2^{AP}$ i.e.
+  "some property holds forever"
+
+Persistance Property
+: LT property of the form ${(2^{AP})}^* A^\w$ i.e.
+  "some property eventually holds forever"
 
 Closure
 : For a LT property $P$ the closure contains all traces $t$ such that
@@ -183,6 +187,7 @@ $$ cl(S) = S $$
 :::
 
 Trace Equivalence != Finite Trace Equivalence
+<!-- TODO: note -->
 
 ::: {#def-liveness-property}
 ### Liveness Property
@@ -192,11 +197,15 @@ $$pref(L) = {2^{AP}}^*$$
 :::
 
 ::: {#def-w-regular-expression}
-An $\w$-reglar expression has the form:
+#### $\w$-regular Expression
+An $\w$-regular expression has the form:
 
 $$G = E_1.F_1^\w + ... + E_n.F_n^\w$$
 
 where $E_i, F_i$ are regular expressions.
+
+If a LT property can be defined by an $\w$-regular expression
+we call it $\w$-*regular property*
 :::
 
 ::: {#thm-trace-inclusion-lt-properties}
@@ -234,6 +243,7 @@ $$Traces(TS) \subseteq Traces(TS') \Leftrightarrow
 :::
 
 ::: {#def-synchronous-product}
+#### Synchronous Product
 Let:
 
 * $TS := (S, Act, \rightharpoonup, I, AP, L)$ without terminal states
@@ -252,14 +262,9 @@ $$TS \otimes A := (S', Act, \rightarrow, I', AP', L')$$
 * $AP' = Q$
 * $L'( \langle s, q \rangle) = \{q\}$
 * $\rightarrow$ can be deduced by:
-$$
-\frac
-  {s \xrightharpoonup{\alpha} \textcolor{orange}{t} \land 
-  q \xrightharpoondown{L(\textcolor{orange}{t})} p} 
-  {\langle {s}, {q} \rangle 
-  \xrightarrow{\alpha} 
-  \langle {\textcolor{orange}{t}}, {p} \rangle}
-$$
+
+$$\frac{s \xrightharpoonup{\alpha} \textcolor{orange}{t} \land q \xrightharpoondown{L(\textcolor{orange}{t})} p} {\langle {s}, {q} \rangle \xrightarrow{\alpha} \langle {\textcolor{orange}{t}}, {p} \rangle}$$
+
 * $I' =  \{ \langle s_0, q \rangle | s_0 \in I \land \exists q_0 \in Q_0 . q_0 \xrightharpoondown{L(s_0)} q \}$
 :::
 
@@ -268,6 +273,88 @@ Let $TS$ be some transition system. $E_{safe}$ a safety property
 and $A$ an NFA that recognizes the bad prefixes of $E_{safe}$.
 Then:
 
-$$TS \models E_{safe} \Leftrightarrow TS \otimes A
-\text{ has no reachable accepting states}$$
+$$TS \models E_{safe} \Leftrightarrow TS \otimes A \text{ has no reachable accepting states}$$
 :::
+
+::: {#def-buechi-automaton}
+#### Büchi automaton
+
+A *nondeterministic Büchi automaton* (NBA) is a tuple
+$(Q, \Sigma, \delta, Q_0, F)$ where:
+
+* $Q$ is a finite set of **states**
+* $\Sigma$ is a finite **alphabet**
+* $\delta: Q \times \Sigma \rightarrow 2^Q$ a **transition function**
+* $Q_0 \subseteq Q$ a set of **initial states**
+* $F \subseteq Q$ set of **accepting states**
+
+**Acceptance condition**: There exists a run that **infinitely often** visits an
+accepting state.
+:::
+
+Property       | NFA                        | NBA
+---------------|----------------------------|----------------------------
+Recognizes:    | regular languages          | $\w$-regular languages
+Closure $\cup$ | union operator             | union operator
+Closure $\cap$ | product construction       | GNBA product
+Closure $\neg$ | build DFA and complement F | complex procedure
+Determinism    | NFA = DFA                  | DBA $\subsetneq$ NBA
+
+: NFA vs. NBA
+
+<!-- lecture 6 start -->
+## Verifying $\w$-regular Safety Properties
+
+Idea
+: Define Büchi automaton $\mathfrak{A}$ for _bad behaviour_ $E$.
+  The atomic property $F$ labels all _accepting_ states of $\mathfrak{A}$. Check if 
+  $$T \otimes \mathfrak{A} \models \text{ eventually forever } \neg F$$
+  Here $\otimes$ is defined like in @def-synchronous-product.
+
+::: {#thm-persistence-prop-check}
+### Persistence Property Check
+
+Let $P$ be some _persistence property_ of the form "$\text{eventually forever } \phi$".
+Then it equivalent:
+
+1. $\Leftrightarrow TS \models P$
+2. $\Leftrightarrow \exists s. (s \in \text{Reach}(TS) \land s \not \models \phi \land s \text{ is on cycle})$
+3. $\Leftrightarrow \exists C. (C \text{ is reachable } \land C \text{ is a SCC} \land C \cap \{ s \in S | s \not \models \phi \} \neq \emptyset)$
+
+Strongly Connected Component ([SCC](https://en.wikipedia.org/wiki/Strongly_connected_component))
+: Set of **states** $C$ such that for all $x, y \in C$: $x$ is _reachable_ from $y$.
+
+### SCC Method
+
+* compute all _inclusion maximal_ SCCs
+* remove unreachable SCCs
+* check for a state $s \models \neg \phi$
+
+::: {.callout-caution}
+#### Not practical
+:::
+
+### Cycle Method
+
+**Naïve way:** $\Theta(|V| \cdot |E|)$
+
+* use [DFS](https://en.wikipedia.org/wiki/Depth-first_search) to find states $s \models \neg \phi$
+* use _second_ DFS to check wether cycle is reachable from itself (i.e. belongs to cycle)
+
+**Imprövement:** $\Theta(|V| + |E|)$
+
+* use outer DFS to find states $s \models \neg \phi$
+* use inner DFS to check wether cycle is reachable from itself **while avoiding states visited in a previous inner DFS**, i.e. maintain **one** `visited` set across all executions of the inner DFS.
+
+:::
+
+
+<!-- lecture 6 end -->
+
+## Linear Temporal Logic (LTL)
+
+* $\phi = x | \phi \lor \phi | \neg \phi$
+* $\phi = \Box \phi$ "always"
+* $\phi = \bigcirc \phi$ "next"
+* $\phi = \diamond \phi$ "eventually"
+* $\phi = \phi \textbf{U} \phi$ "until"
