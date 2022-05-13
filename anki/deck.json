@@ -7,6 +7,7 @@
         {
             "__type__": "DeckConfig",
             "autoplay": true,
+            "buryInterdayLearning": false,
             "crowdanki_uuid": "027ceeb6-be6b-11ec-9617-7085c239892d",
             "dyn": false,
             "interdayLearningMix": 0,
@@ -162,7 +163,7 @@
             "latexPost": "\\end{document}",
             "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
             "latexsvg": false,
-            "name": "Lückentext",
+            "name": "Lückentext-8e52e",
             "req": [
                 [
                     0,
@@ -694,6 +695,76 @@
                 "<img src=\"paste-63f0446f79950c1e515f33d1ab8e0725994de7e2.jpg\"><br><ul><li>where \\(cl(P)\\) is the strongest safety property and</li><li>((2^{AP})^{\\omega} \\\\ cl(P)) the weakest liveness property</li></ul>"
             ],
             "guid": "xT$$=WG&%p",
+            "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "<div>Let&nbsp;P&nbsp;be some&nbsp;<em>persistence property</em>&nbsp;of the form “eventually forever&nbsp;ϕ”. Then it equivalent to TS⊨P</div>",
+                "<ol><li>⇔∃s.(s∈Reach(TS)∧s⊭ϕ∧s&nbsp;is on cycle)</li><li>⇔∃C.(C&nbsp;is reachable&nbsp;∧C&nbsp;is a SCC∧C∩{s∈S|s⊭ϕ}≠∅)</li></ol><dl><br></dl>"
+            ],
+            "guid": "Lk@]O,)(3@",
+            "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is a SCC?",
+                "<dl><dd>A Strongly Connected Component is a set of&nbsp;<strong>states</strong>&nbsp;C&nbsp;such that for all&nbsp;x,y∈C:&nbsp;x&nbsp;is&nbsp;<em>reachable</em>&nbsp;from&nbsp;y.</dd></dl><br>"
+            ],
+            "guid": "k9VQW/8dM/",
+            "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "How does \"SCC method\" for checking persistence properties work?",
+                "<ul><li>compute all&nbsp;<em>inclusion maximal</em>&nbsp;SCCs</li><li>remove unreachable SCCs</li><li>check for a state&nbsp;s⊨¬ϕ</li></ul>"
+            ],
+            "guid": "e]_CY|O$Y8",
+            "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "How does the \"naïve cycle method\" for checking persistence properties work?&nbsp;",
+                "<ul><li>use&nbsp;<a href=\"https://en.wikipedia.org/wiki/Depth-first_search\">DFS</a>&nbsp;to find states&nbsp;s⊨¬ϕ</li><li>use&nbsp;<em>second</em>&nbsp;DFS to check wether cycle is reachable from itself (i.e.&nbsp;belongs to cycle)</li></ul>"
+            ],
+            "guid": "AQWqDC[>YP",
+            "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is the runtime of the \"naïve cycle method\"?",
+                "$\\Theta( |V| \\cdot |E|) $"
+            ],
+            "guid": "nmYVW$z%9n",
+            "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "How does the \"improved cycle method\" for checking persistence properties work?&nbsp;",
+                "<div><ul><li>use outer DFS to find states&nbsp;s⊨¬ϕ</li><li>use inner DFS to check wether cycle is reachable from itself&nbsp;<strong>while avoiding states visited in a previous inner DFS</strong>, i.e.&nbsp;maintain&nbsp;<strong>one</strong>&nbsp;<code>visited</code>&nbsp;set across all executions of the inner DFS.</li></ul></div>"
+            ],
+            "guid": "LC}z5FmyI`",
+            "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is the runtime of the \"improved cycle method\"?",
+                "$\\Theta( | V | + | E | )$"
+            ],
+            "guid": "BiVF^zsimM",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
             "tags": []
         }
