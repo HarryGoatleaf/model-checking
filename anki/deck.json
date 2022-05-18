@@ -363,7 +363,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "When is an execution fragment a path?",
+                "What is a path?",
                 "Let \\(s_0 \\alpha_1 s_1 ...\\) be an execution, then \\(s_0s_1 ...\\) is a path. <br><br>In other words a path is the sequence of states of an execution."
             ],
             "guid": "o7)!2}d/+^",
@@ -635,7 +635,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "Assuming \\(TS\\) and \\(TS'\\) are transition system (over AP) without terminal states: \\(Traces_{fin}(TS) \\subseteq Traces_{fin}(TS')\\) iff&nbsp;{{c1::for any safety property \\(E_{safe}: TS' \\models E_{safe} \\Rightarrow TS \\models E_{safe}.}}",
+                "Assuming \\(TS\\) and \\(TS'\\) are transition system (over AP) without terminal states: \\(Traces_{fin}(TS) \\subseteq Traces_{fin}(TS')\\) iff&nbsp;{{c1::for any safety property \\(E_{safe}: TS' \\models E_{safe} \\Rightarrow TS \\models E_{safe} \\) .}}",
                 ""
             ],
             "guid": "K7tyq1pk!<",
@@ -655,17 +655,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "When does it hold that:&nbsp;\\( Traces(TS) \\subseteq Traces(TS') iff Traces_{fin}(TS) \\subseteq Traces_{fin}(TS') \\)?",
-                "This holds if TSs don't have terminal states and&nbsp;\\(TS'\\)&nbsp;is finite (or at least finite branching)"
-            ],
-            "guid": "q8P(/^*<Mz",
-            "note_model_uuid": "43b6603f-c321-11ec-8bb6-181deab2103c",
-            "tags": []
-        },
-        {
-            "__type__": "Note",
-            "fields": [
-                "What is the liveness property?",
+                "What is a liveness property?",
                 "<img src=\"paste-00d31f9b2becbfe5c07dd0433db2bb621ef10446.jpg\"><br><ul><li>a liveness property does not rule out any prefix&nbsp;\\(pref(L) = {2^{AP}}^*\\)</li><li>liveness properties are violated in 'infinite time'</li><li>Equivalently, \\(E_{live}\\) is a liveness property iff \\(cl(E_{live}) = (2^{AP})^{\\omega} \\)</li></ul>"
             ],
             "guid": "jYut:W6X>q",
@@ -706,7 +696,7 @@
             "__type__": "Note",
             "fields": [
                 "What is the <b>Decomposition theorem for LT properties</b>?",
-                "<img src=\"paste-e32849f2c16c7348016d3c88be3a118bcb10b795.jpg\"><br><ul><li>Proposal: \\(P = cl(P) \\cap (P \\cup ((s^{AP})^{\\omega} \\\\ cl(P)))</li></ul>"
+                "<img src=\"paste-e32849f2c16c7348016d3c88be3a118bcb10b795.jpg\"><br>\\(P = cl(P) \\cap (P \\cup ((2^{AP})^{\\omega} \\setminus cl(P)) \\)"
             ],
             "guid": "M)Ak[c6<b!",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -716,7 +706,7 @@
             "__type__": "Note",
             "fields": [
                 "Let \\(P\\) be an LT property and \\(P = E_{safe} \\cap E_{live}\\) where \\(E_{safe} \\) is a safety property and \\(E_{live} \\) a liveness property. Then:",
-                "<img src=\"paste-63f0446f79950c1e515f33d1ab8e0725994de7e2.jpg\"><br><ul><li>where \\(cl(P)\\) is the strongest safety property and</li><li>((2^{AP})^{\\omega} \\\\ cl(P)) the weakest liveness property</li></ul>"
+                "<img src=\"paste-63f0446f79950c1e515f33d1ab8e0725994de7e2.jpg\"><br><ul><li>where \\(cl(P)\\) is the strongest safety property and</li><li>\\((2^{AP})^{\\omega} \\setminus cl(P)\\) the weakest liveness property</li></ul>"
             ],
             "guid": "xT$$=WG&%p",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -725,7 +715,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "<div>Let&nbsp;P&nbsp;be some&nbsp;<em>persistence property</em>&nbsp;of the form “eventually forever&nbsp;ϕ”. Then it equivalent to TS⊨P</div>",
+                "<div>Let&nbsp;P&nbsp;be some&nbsp;<em>persistence property</em>&nbsp;of the form “eventually forever&nbsp;ϕ”. Then it equivalent to&nbsp;</div>\\(TS \\not \\models P\\)",
                 "<ol><li>⇔∃s.(s∈Reach(TS)∧s⊭ϕ∧s&nbsp;is on cycle)</li><li>⇔∃C.(C&nbsp;is reachable&nbsp;∧C&nbsp;is a SCC∧C∩{s∈S|s⊭ϕ}≠∅)</li></ol><dl><br></dl>"
             ],
             "guid": "Lk@]O,)(3@",
@@ -746,7 +736,7 @@
             "__type__": "Note",
             "fields": [
                 "How does \"SCC method\" for checking persistence properties work?",
-                "<ul><li>compute all&nbsp;<em>inclusion maximal</em>&nbsp;SCCs</li><li>remove unreachable SCCs</li><li>check for a state&nbsp;s⊨¬ϕ</li></ul>"
+                "<ul><li>compute all&nbsp;<em>inclusion maximal</em>&nbsp;SCCs</li><li>remove unreachable SCCs</li><li>check if any state (in a SCC) voilates&nbsp;\\(\\phi\\)</li></ul>"
             ],
             "guid": "e]_CY|O$Y8",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -766,7 +756,7 @@
             "__type__": "Note",
             "fields": [
                 "What is the runtime of the \"naïve cycle method\"?",
-                "$\\Theta( |V| \\cdot |E|) $"
+                "\\[\\Theta( |V| \\cdot |E|)\\]<br>"
             ],
             "guid": "nmYVW$z%9n",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -786,7 +776,7 @@
             "__type__": "Note",
             "fields": [
                 "What is the runtime of the \"improved cycle method\"?",
-                "$\\Theta( | V | + | E | )$"
+                "\\[\\Theta( | V | + | E | )\\]"
             ],
             "guid": "BiVF^zsimM",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -799,6 +789,16 @@
                 "LT property of the form&nbsp;\\((2^{AP})^*A^\\omega\\)&nbsp;i.e. “some property eventually holds forever”"
             ],
             "guid": "L>*5k^[RDs",
+            "note_model_uuid": "d474f2e0-d6c8-11ec-b43b-7085c239892d",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "When does it hold that:&nbsp;\\[ Traces(TS) \\subseteq Traces(TS') \\Leftrightarrow Traces_{fin}(TS) \\subseteq Traces_{fin}(TS') \\]<br>",
+                "This holds if both transition systems don't have terminal states and&nbsp;\\(TS'\\)&nbsp;is finite (or at least finite branching)"
+            ],
+            "guid": "b3q={H)(VT",
             "note_model_uuid": "d474f2e0-d6c8-11ec-b43b-7085c239892d",
             "tags": []
         }
