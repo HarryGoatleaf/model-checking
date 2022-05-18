@@ -64,14 +64,11 @@
     "media_files": [
         "paste-00d31f9b2becbfe5c07dd0433db2bb621ef10446.jpg",
         "paste-062e84b5969b064631b07e9d0615624c5607f094.jpg",
-        "paste-1dca9ead383e3d24fe40b4a83ef5dc2f57cdf894.jpg",
         "paste-40e5ca2aaea7d8cb3e650d719eb3572b28e623c3.jpg",
         "paste-56c24de8cc797c53fd99fd4f7c451816b47ccbfb.jpg",
         "paste-63f0446f79950c1e515f33d1ab8e0725994de7e2.jpg",
         "paste-65348898012c8e401bfbac4356870f15752fc724.jpg",
-        "paste-66f7ef29affd70de50360ea80a3e4a44919465c0.jpg",
         "paste-993aeb1ca5dec0b3fb1c5a63e626a6cabe01e413.jpg",
-        "paste-a5844f708c1d3923ce1cb03bb2db9e5116c8a3e0.jpg",
         "paste-d5dcee84d92d29811fc40a438c6e326380b4e8fc.jpg",
         "paste-e32849f2c16c7348016d3c88be3a118bcb10b795.jpg",
         "paste-e3e3e0a434c41cb96bd97208f603bfd56ee2ed30.jpg",
@@ -140,10 +137,64 @@
         },
         {
             "__type__": "NoteModel",
+            "crowdanki_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "css": ".card {\n  font-family: arial;\n  font-size: 20px;\n  text-align: center;\n  color: black;\n  background-color: white;\n}\n",
+            "flds": [
+                {
+                    "description": "",
+                    "font": "Arial",
+                    "name": "Vorderseite",
+                    "ord": 0,
+                    "rtl": false,
+                    "size": 20,
+                    "sticky": false
+                },
+                {
+                    "description": "",
+                    "font": "Arial",
+                    "name": "Rückseite",
+                    "ord": 1,
+                    "rtl": false,
+                    "size": 20,
+                    "sticky": false
+                }
+            ],
+            "latexPost": "\\end{document}",
+            "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+            "latexsvg": false,
+            "name": "Einfach",
+            "req": [
+                [
+                    0,
+                    "any",
+                    [
+                        0
+                    ]
+                ]
+            ],
+            "sortf": 0,
+            "tmpls": [
+                {
+                    "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Rückseite}}",
+                    "bafmt": "",
+                    "bfont": "",
+                    "bqfmt": "",
+                    "bsize": 0,
+                    "did": null,
+                    "name": "Karte 1",
+                    "ord": 0,
+                    "qfmt": "{{Vorderseite}}"
+                }
+            ],
+            "type": 0
+        },
+        {
+            "__type__": "NoteModel",
             "crowdanki_uuid": "43b6603f-c321-11ec-8bb6-181deab2103c",
             "css": ".card {\n  font-family: arial;\n  font-size: 20px;\n  text-align: center;\n  color: black;\n  background-color: white;\n}\n\n.cloze {\n font-weight: bold;\n color: blue;\n}\n.nightMode .cloze {\n color: lightblue;\n}\n",
             "flds": [
                 {
+                    "description": "",
                     "font": "Arial",
                     "name": "Text",
                     "ord": 0,
@@ -152,6 +203,7 @@
                     "sticky": false
                 },
                 {
+                    "description": "",
                     "font": "Arial",
                     "name": "Rückseite Extra",
                     "ord": 1,
@@ -191,20 +243,24 @@
         },
         {
             "__type__": "NoteModel",
-            "crowdanki_uuid": "43b66042-c321-11ec-b111-181deab2103c",
-            "css": ".card {\n  font-family: arial;\n  font-size: 20px;\n  text-align: center;\n  color: black;\n  background-color: white;\n}\n",
+            "crowdanki_uuid": "d474f2e0-d6c8-11ec-b43b-7085c239892d",
+            "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
             "flds": [
                 {
+                    "description": "",
                     "font": "Arial",
-                    "name": "Vorderseite",
+                    "media": [],
+                    "name": "Front",
                     "ord": 0,
                     "rtl": false,
                     "size": 20,
                     "sticky": false
                 },
                 {
+                    "description": "",
                     "font": "Arial",
-                    "name": "Rückseite",
+                    "media": [],
+                    "name": "Back",
                     "ord": 1,
                     "rtl": false,
                     "size": 20,
@@ -214,7 +270,7 @@
             "latexPost": "\\end{document}",
             "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
             "latexsvg": false,
-            "name": "Einfach",
+            "name": "Basic-e50cd",
             "req": [
                 [
                     0,
@@ -225,20 +281,22 @@
                 ]
             ],
             "sortf": 0,
+            "tags": [],
             "tmpls": [
                 {
-                    "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Rückseite}}",
+                    "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
                     "bafmt": "",
                     "bfont": "",
                     "bqfmt": "",
                     "bsize": 0,
                     "did": null,
-                    "name": "Karte 1",
+                    "name": "Card 1",
                     "ord": 0,
-                    "qfmt": "{{Vorderseite}}"
+                    "qfmt": "{{Front}}"
                 }
             ],
-            "type": 0
+            "type": 0,
+            "vers": []
         }
     ],
     "notes": [
@@ -330,7 +388,7 @@
             "__type__": "Note",
             "fields": [
                 "What is a trace?",
-                "Let \\(s_0s_1...\\) be a path, then \\(L(s_0)L(s_1)...\\) over \\( (2^{AP}^{\\omega}) \\) is a trace. <br><br>In other words a trace is the sequence of atomic propositions that hold along a path."
+                "Let \\(s_0s_1...\\) be a path, then \\(L(s_0)L(s_1)...\\) over \\( \\left( {2^{AP}}^{\\omega} \\right)\\) is a trace. <br><br>In other words a trace is the sequence of atomic propositions that hold along a path."
             ],
             "guid": "ji+4.F*3iI",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -365,8 +423,8 @@
         {
             "__type__": "Note",
             "fields": [
-                "For what is <b>interleaving </b>used for Transition Systems?",
-                "We can model multi-threaded execution <strong>without shared variables</strong> by interleaving the transition systems."
+                "What is <b>interleaving</b>&nbsp;of transition systems used for?",
+                "To model multi-threaded execution <strong>without shared variables</strong>."
             ],
             "guid": "zMkZ|I:8.1",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -377,7 +435,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "How is the I<b>nterleaving of transition systems</b> defined?",
+                "How is the <b>interleaving </b>of<b> transition systems</b> defined?",
                 "<img src=\"paste-56c24de8cc797c53fd99fd4f7c451816b47ccbfb.jpg\">"
             ],
             "guid": "f9&T!uR5aW",
@@ -389,8 +447,8 @@
         {
             "__type__": "Note",
             "fields": [
-                "For what is interleaving fpr program graphs used?",
-                "We can model multi-threaded execution <strong>with shared variables</strong> by interleaving the program graphs."
+                "What is interleaving of program graphs used for?",
+                "To model multi-threaded execution <strong>with shared variables</strong>."
             ],
             "guid": "u?zz:`#/|`",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -401,7 +459,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "How is the Interleaving of program graph defined?",
+                "How is the interleaving of program graph defined?",
                 "<img src=\"paste-993aeb1ca5dec0b3fb1c5a63e626a6cabe01e413.jpg\">"
             ],
             "guid": "P{We#r4U3>",
@@ -426,7 +484,7 @@
             "__type__": "Note",
             "fields": [
                 "What are the differences between TS and Finite Automata?",
-                "Transition System<br><ul><li>no accepting states</li><li>is not 'accepting' a (regular) language</li><li>may have countable infinite set of states and actions</li><li>may be infinitely branching</li><li>actions are used to 'glue' small transition systems</li><li>Most importantly: TS model reactive systems: systems that continuously interact with their environment</li></ul>"
+                "<ul><li>no accepting states</li><li>may have countable <b>infinite</b> set of states and actions<br>(⇒ may be infinitely branching)</li><li>TS model <b>reactive systems</b>: systems that continuously interact with their environment<br></li></ul>"
             ],
             "guid": "IM-#W>KSNe",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -437,32 +495,8 @@
         {
             "__type__": "Note",
             "fields": [
-                "What is the interleaving of 2 TS's when they share no variables?",
-                "\\(TS(PG_1) \\ ||| \\ TS(PG_1)\\)"
-            ],
-            "guid": "L*;YB_eyj)",
-            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
-            "tags": [
-                "VL1+VL2"
-            ]
-        },
-        {
-            "__type__": "Note",
-            "fields": [
-                "What is the interleaving of 2 TS's when they share some variables?",
-                "\\(TS(PG_1 \\ ||| \\ PG_2)\\)"
-            ],
-            "guid": "NdJczU)xv?",
-            "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
-            "tags": [
-                "VL1+VL2"
-            ]
-        },
-        {
-            "__type__": "Note",
-            "fields": [
-                "How can the syntax of&nbsp;\\(\\emoga\\)-Regular Expressions be described?",
-                "<img src=\"paste-d5dcee84d92d29811fc40a438c6e326380b4e8fc.jpg\"><br><ul><li>\\(\\emoga\\)-Regular Expressions denote language of <b>infinite </b>word</li></ul>"
+                "Define&nbsp;\\(\\omega\\)-regular Expressions",
+                "<img src=\"paste-d5dcee84d92d29811fc40a438c6e326380b4e8fc.jpg\"><br>\\(\\omega\\)-regular Expressions denote languages of <b>infinite words</b>"
             ],
             "guid": "Iu;&TE`u.!",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -472,7 +506,7 @@
             "__type__": "Note",
             "fields": [
                 "What is the empty language represented as a \\(\\omega\\)-regular expression?",
-                "\\(\\emptyset^{\\underline{\\emga}}\\)"
+                "\\(\\emptyset^{\\omega}\\)"
             ],
             "guid": "NP~A+wRcUD",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -481,7 +515,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "How can the semantic of&nbsp;\\(\\emoga\\)-Regular Expressions be described?",
+                "What is the semantics of an&nbsp;\\(\\omega\\)-regular Expression of the form&nbsp;\\(E_1.F_1^\\omega ... E_n.F_n^\\omega\\)&nbsp;?",
                 "<img src=\"paste-e53b189055a306f44be444db43da983622a3642c.jpg\">"
             ],
             "guid": "B)r~14wS>R",
@@ -491,8 +525,8 @@
         {
             "__type__": "Note",
             "fields": [
-                "What is the <b>Linear-Time Property</b>?",
-                "<img src=\"paste-1dca9ead383e3d24fe40b4a83ef5dc2f57cdf894.jpg\"><br><ul><li>property specifies the desirable traces</li><li>infinite traces&nbsp;\\(\\Rightarrow\\) \\(TS\\) is assumed to have no terminal states</li><li>\\(TS\\) satisfoes property <b>P </b>if all its 'observable' behaviours are admitted by <b>P</b></li></ul>"
+                "What is a <b>Linear-Time Property</b>? And what are they used for?",
+                "For some atomic propositions&nbsp;\\(AP\\)&nbsp;any set&nbsp;\\(E \\subseteq {\\left(2^{AP}\\right)}^\\omega\\)is a linear-time property.<br>We can use LT properties to describe good/bad behaviour of transition systems."
             ],
             "guid": "f{_t1h=4ew",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -501,8 +535,8 @@
         {
             "__type__": "Note",
             "fields": [
-                "What describes the Satisfction relation for LT properties?",
-                "<img src=\"paste-66f7ef29affd70de50360ea80a3e4a44919465c0.jpg\"><br><ul><li>i.e. the \\(TS\\) does not show any behaviour that is undesirable over AP</li></ul>"
+                "When is a LT property satisfied?",
+                "A transition system&nbsp;\\(TS\\)&nbsp;satisfies an LT property&nbsp;\\(E\\)&nbsp;(denoted&nbsp;\\(TS \\models E\\))&nbsp;iff.&nbsp;\\(Traces(TS) \\subseteq E\\)."
             ],
             "guid": "fS$[sE7<Jo",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -532,7 +566,7 @@
             "__type__": "Note",
             "fields": [
                 "What is an invariant?",
-                "<ul><li>An invariant is an LT property \\(E_{inv}\\) that has the form:\\[ E_{inv} = \\Big\\{ A_0A_1A_2 \\dots \\in (2^{AP})^{\\omega} \\mid \\forall j \\geq 0. A_j \\models \\phi \\Big\\} \\] where (invariant condition) \\(\\phi\\) is a propositional logic formula over AP</li></ul>"
+                "An invariant is an LT property \\(E_{inv}\\) that has the form:\\[ E_{inv} = \\Big\\{ A_0A_1A_2 \\dots \\in (2^{AP})^{\\omega} \\mid \\forall j \\geq 0. A_j \\models \\phi \\Big\\} \\] where (invariant condition) \\(\\phi\\) is a propositional logic formula over AP<br>"
             ],
             "guid": "v$L,[TEoe}",
             "note_model_uuid": "027cfc3a-be6b-11ec-9617-7085c239892d",
@@ -541,18 +575,8 @@
         {
             "__type__": "Note",
             "fields": [
-                "\\( TS \\models \\phi \\) iff {{c1:: \\( L(s) \\models \\phi\\) for all states \\(s \\in Reach(TS)\\) }}",
-                ""
-            ],
-            "guid": "ckbSyWAbL^",
-            "note_model_uuid": "43b6603f-c321-11ec-8bb6-181deab2103c",
-            "tags": []
-        },
-        {
-            "__type__": "Note",
-            "fields": [
                 "What is the invariant condition for mutual exclusion?",
-                "<ul><li>in words: set of all infinite words \\(A_0A_1A_2 \\dots\\) so that \\( \\forall i \\in \\mathbb{N}. crit \\notin A_i or crit_2 \\notin A_i\\)</li><li>\\( \\phi = \\neg cirt_1 \\lor \\neg crit_2 \\)</li></ul>"
+                "<ul><li>in words: set of all infinite words \\(A_0A_1A_2 \\dots\\) so that \\( \\forall i \\in \\mathbb{N}. \\texttt{crit}_1 \\notin A_i \\lor \\texttt{crit}_2 \\notin A_i\\)</li><li>\\( \\phi = \\neg \\texttt{crit}_1 \\lor \\neg \\texttt{crit}_2 \\)</li></ul>"
             ],
             "guid": "z,lIEYe2W$",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -562,7 +586,7 @@
             "__type__": "Note",
             "fields": [
                 "What are safety properties?",
-                "<ul><li>safety properties may impose requirements on finite path fragments</li><li><img src=\"paste-a5844f708c1d3923ce1cb03bb2db9e5116c8a3e0.jpg\"><br></li><li><br></li></ul>"
+                "Safety properties can be characterized by a set of finite \"bad prefixes\".<br>A LT-property&nbsp;\\(E \\subseteq {\\left(2^{AP}\\right)}^\\omega\\)&nbsp;is a safety property&nbsp;if we can a set&nbsp;\\(E_{pref} \\subseteq {\\left(2^{AP}\\right)}^*\\)&nbsp;such that<br>\\[w \\in E \\Leftrightarrow \\exists x \\in E_{pref}. x \\text{ is a prefix of } w\\]Equivalently we can define safety properties as all sets that satisfy:<br>\\[cl(E) = E\\]<br>"
             ],
             "guid": "bwJNv@XT+b",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -581,7 +605,7 @@
         {
             "__type__": "Note",
             "fields": [
-                "For transition system TS without without terminal states and safety property \\(E_{safe}\\) holds \\dots&nbsp;",
+                "For transition system TS without without terminal states and safety property \\(E_{safe}\\) holds&nbsp;\\(\\dots\\)",
                 "<img src=\"paste-feb8161d72e4e871eaf9b5bf52dfeda3702bd26d.jpg\"><br><ul><li>\\( Traces_{fin} (TS) \\cap BadPref(E_{safe})\\) means TS that have no finite traces that are bad</li></ul>"
             ],
             "guid": "GoV=p58uHK",
@@ -631,8 +655,8 @@
         {
             "__type__": "Note",
             "fields": [
-                "For \\(TS\\) without terminal states and finite \\(TS'\\): \\(Traces(TS) \\subseteq Traces(TS') iff&nbsp;{{c1::\\(Traces_{fin}(TS) \\subseteq Traces_{fin}(TS').}}",
-                ""
+                "When does it hold that:&nbsp;\\( Traces(TS) \\subseteq Traces(TS') iff Traces_{fin}(TS) \\subseteq Traces_{fin}(TS') \\)?",
+                "This holds if TSs don't have terminal states and&nbsp;\\(TS'\\)&nbsp;is finite (or at least finite branching)"
             ],
             "guid": "q8P(/^*<Mz",
             "note_model_uuid": "43b6603f-c321-11ec-8bb6-181deab2103c",
@@ -642,7 +666,7 @@
             "__type__": "Note",
             "fields": [
                 "What is the liveness property?",
-                "<img src=\"paste-00d31f9b2becbfe5c07dd0433db2bb621ef10446.jpg\"><br><ul><li>a liveness property does not rule out any prefix</li><li>liveness properties are violated in 'infinite time'</li><li>Equivalently, \\(E_{live}\\) is a liveness property iff \\(cl(E_{live}) = (2^{AP})^{\\omega} \\)</li></ul>"
+                "<img src=\"paste-00d31f9b2becbfe5c07dd0433db2bb621ef10446.jpg\"><br><ul><li>a liveness property does not rule out any prefix&nbsp;\\(pref(L) = {2^{AP}}^*\\)</li><li>liveness properties are violated in 'infinite time'</li><li>Equivalently, \\(E_{live}\\) is a liveness property iff \\(cl(E_{live}) = (2^{AP})^{\\omega} \\)</li></ul>"
             ],
             "guid": "jYut:W6X>q",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -652,7 +676,7 @@
             "__type__": "Note",
             "fields": [
                 "Are safety and liveness properties disjoint?",
-                "Yes, except for the property that doen't exclude anything \\((2a{AP})^{\\omega} \\)."
+                "Yes, except for the property that doen't exclude anything \\((2^{AP})^{\\omega} \\)."
             ],
             "guid": "s)]N6!T86a",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -662,7 +686,7 @@
             "__type__": "Note",
             "fields": [
                 "Is any linear-time property a safety or liveness property?",
-                "No, but for any LT property P there ecists an equivalent LT property P' which is a conjunction of a safety and a liveness property."
+                "No, but for any LT property P there exists an equivalent LT property P' which is a conjunction of a safety and a liveness property."
             ],
             "guid": "H]UeF0,WmA",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
@@ -766,6 +790,16 @@
             ],
             "guid": "BiVF^zsimM",
             "note_model_uuid": "43b66042-c321-11ec-b111-181deab2103c",
+            "tags": []
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "What is a persistence property?",
+                "LT property of the form&nbsp;\\((2^{AP})^*A^\\omega\\)&nbsp;i.e. “some property eventually holds forever”"
+            ],
+            "guid": "L>*5k^[RDs",
+            "note_model_uuid": "d474f2e0-d6c8-11ec-b43b-7085c239892d",
             "tags": []
         }
     ]
