@@ -5,10 +5,13 @@ format:
     theme: darkly
     toc: true
     toc-depth: 3
-    self-contained: true
+    self-contained: false
+    code-overflow: "wrap"
+    code-line-numbers: true
 ---
 
 \newcommand{\w}{\omega}
+\newcommand{\phi}{\varphi}
 
 ## Transition Systems
 
@@ -157,9 +160,9 @@ State space grows **exponentially** with number of **threads** and **variables**
 A **linear-time property** over some atomic propositions $AP$ is a subset of 
 $\left(2^{AP}\right)^\omega$.
 
-A transitionsystem $TS$ satisfies a LT property $P$ 
+A transitionsystem $TS$ satisfies a LT property $P$
 
-$$TS \models P \text{iff. } Traces(TS) \subseteq P$$
+$$TS \models P \text{ iff. } Traces(TS) \subseteq P$$
 :::
 
 Invariant
@@ -352,9 +355,130 @@ Strongly Connected Component ([SCC](https://en.wikipedia.org/wiki/Strongly_conne
 <!-- lecture 6 end -->
 
 ## Linear Temporal Logic (LTL)
+<!-- macros -->
+\newcommand{\true}{\texttt{true}}
+\newcommand{\false}{\texttt{false}}
+<!-- tomporal -->
+\newcommand{\U}{\textbf{U}}
+\newcommand{\R}{\textbf{R}}
+\newcommand{\W}{\textbf{W}}
+\newcommand{\M}{\textbf{M}}
+<!-- modal -->
+\newcommand{\box}{\square}
+\newcommand{\dia}{\diamond}
+\newcommand{\cir}{\bigcirc}
+\newcommand{\next}{\bigcirc}
 
-* $\phi = x | \phi \lor \phi | \neg \phi$
-* $\phi = \Box \phi$ "always"
-* $\phi = \bigcirc \phi$ "next"
-* $\phi = \diamond \phi$ "eventually"
-* $\phi = \phi \textbf{U} \phi$ "until"
+For a set of atomic propositions $AP$ we give the BNF grammar for LTL:
+
+* $\phi = a \text{ for } a \in AP$
+* $\phi = \true | \phi \lor \phi | \neg \phi$
+* $\phi = \cir \phi$ "next"
+* $\phi = \phi \U \phi$ "until"
+
+**Derived Operators**:
+
+* the usual: \
+  $\false, \lor, \leftarrow, \rightarrow, \leftrightarrow, \otimes$
+* modal operators:
+  * "eventually" $\dia \phi := \true \U \phi$ 
+  * "always" $\box \phi := \neg \dia \neg \phi$
+* temporal operators:
+  * "release" $\phi \R \psi := \neg (\neg \phi \U \psi)$
+  * "weak until" 
+    $\phi \W \psi := (\phi \U \psi) \lor \box \phi$ 
+  * "strong release"
+  $\phi \M \psi := (\phi \R \psi) \land \dia \phi$
+  
+**Equivalences**:
+
+**Dualities**:
+
+* $\neg \box \phi \equiv \dia \neg \phi$
+* $\neg \cir \phi \equiv \cir \neg \phi$
+* $\neg (\phi \U \psi) \equiv \neg \phi \R \neg \psi$
+* $\neg (\phi \U \psi) \equiv (\phi \land \neg \psi) \R (\neg \phi \land \neg \psi)$
+* $\neg (\phi \W \psi) \equiv \neg \phi \M \neg \psi$
+* $\neg (\phi \W \psi) \equiv (\phi \land \neg \psi) \U (\neg \phi \land \neg \psi)$
+
+**Absorbtion**:
+
+* $\box \box \phi \equiv \box \phi$
+* $\dia \dia \phi \equiv \dia \phi$
+* $\box \dia \box \phi \equiv \dia \box \phi$
+* $\dia \box \dia \phi \equiv \box \dia \phi$
+* $\phi \U (\phi \U \psi) \equiv \phi \U \psi$
+* $(\phi \U \psi) \U \psi \equiv \phi \U \psi$
+
+**Distribution**:
+
+* $\next (\phi \U \psi) \equiv (\next \phi \U \next \psi)$
+* $\dia (\phi \lor \psi) \equiv \dia \phi \lor \dia \psi$
+* $\box (\phi \land \psi) \equiv \box \phi \land \box \psi$
+
+::: {.callout-caution}
+
+* $\dia (\phi \land \psi) \not \equiv \dia \phi \land \dia \psi$
+* $\box (\phi \lor \psi) \not \equiv \box \phi \lor \box \psi$
+
+:::
+
+**Expansion**:
+
+* $\dia \phi \equiv \phi \lor \next \dia \phi$
+* $\box \phi \equiv \phi \land \next \box \phi$
+* $\phi \U \psi \equiv \psi \lor (\phi \land \next (\phi \U \psi))$
+
+<!-- TODO: formal semantics -->
+<!-- TODO: examples -->
+
+## Model checking of LTL
+
+::: {#def-gnba}
+### Generalized Büchi Automata
+
+A *Generalized Non-deterministic Büchi Automaton* (GNBA) is a tuple
+$(Q, \Sigma, \delta, Q_0, \mathfrak{F})$ where
+
+$$\mathfrak{F} = \{ F_1, ..., F_k \} \text{ with } F_i \subseteq Q$$
+
+A run $r_1r_2...$ on this automaton is **accepting** if:
+$$\forall F_j. \exists^\infty i. r_i \in F_j$$
+:::
+
+::: {.callout-note}
+For NBA $A$ the NBA for $\bar{A}$ has $c^{n^2}$ states in worst case.
+
+Solution: use $A_{\neg \phi} \equiv \bar{A}$
+:::
+
+expant $\sigma = A_1A_2...$ to $B_1B_2...$
+where 
+$B_i = A_i \cup 
+\{ \psi | \psi \models A_i, \psi \text{ subformula of } \phi\}$
+
+Closure of LTL formula
+: all subformulas and their negations
+
+::: {#def-elementary-sets}
+### Elementary sets
+
+Let
+
+1. maximaly consistent:
+  * $\phi \land \psi \in B \Leftrightarrow \phi \in B \land \psi \in B$
+  * $\phi \notin B \Leftrightarrow \neg \phi \in B$
+  * $true \in cl(\phi) \Rightarrow true \in B$
+2. locally consistent: for $\phi U \psi \in cl(\sigma)$
+  * $\psi \in B \Rightarrow \phi U \psi \in B$
+  * $\phi U \psi \in B \land \psi \notin B \Rightarrow \phi \in B$
+:::
+
+* $\Sigma = 2^{AP}$
+* $Q := $ elementary sets
+* $Q_0$ all sets with $\phi$
+* $\delta := $
+  * $\circ \phi \in B \Leftrightarrow \phi \in B'$
+  * (expansion law)
+    $\phi U \psi \in B \Leftrightarrow 
+    (\psi \in B \lor (\phi \in B \land \phi U \psi \in B'\))
