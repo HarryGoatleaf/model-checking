@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.446">
+<meta name="generator" content="quarto-0.9.434">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -49,7 +49,11 @@ ul.task-list{list-style: none;}
   <li><a href="#linear-time-properties" id="toc-linear-time-properties" class="nav-link" data-scroll-target="#linear-time-properties">Linear Time Properties</a></li>
   <li><a href="#verifying-omega-regular-safety-properties" id="toc-verifying-omega-regular-safety-properties" class="nav-link" data-scroll-target="#verifying-omega-regular-safety-properties">Verifying <span class="math inline">\(\omega\)</span>-regular Safety Properties</a></li>
   <li><a href="#linear-temporal-logic-ltl" id="toc-linear-temporal-logic-ltl" class="nav-link" data-scroll-target="#linear-temporal-logic-ltl">Linear Temporal Logic (LTL)</a></li>
-  <li><a href="#model-checking-of-ltl" id="toc-model-checking-of-ltl" class="nav-link" data-scroll-target="#model-checking-of-ltl">Model checking of LTL</a></li>
+  <li><a href="#model-checking-of-ltl" id="toc-model-checking-of-ltl" class="nav-link" data-scroll-target="#model-checking-of-ltl">Model checking of LTL</a>
+  <ul class="collapse">
+  <li><a href="#complexity-landscape" id="toc-complexity-landscape" class="nav-link" data-scroll-target="#complexity-landscape">Complexity landscape</a></li>
+  </ul></li>
+  <li><a href="#computation-tree-logic-ctl" id="toc-computation-tree-logic-ctl" class="nav-link" data-scroll-target="#computation-tree-logic-ctl">Computation Tree Logic (CTL)</a></li>
   </ul>
 </nav>
 </div>
@@ -115,10 +119,10 @@ ul.task-list{list-style: none;}
 <li>a <strong>labeling function</strong> <span class="math inline">\(L : S \rightarrow 2^{AP}\)</span> that assigns propositions to each state</li>
 </ul>
 </div>
-<div class="callout-info callout callout-style-default no-icon callout-captioned">
+<div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
 Differences to finite automata
@@ -559,7 +563,7 @@ Note
 <p>Solution: use <span class="math inline">\(A_{\neg \varphi} \equiv \bar{A}\)</span></p>
 </div>
 </div>
-<p>expant <span class="math inline">\(\sigma = A_1A_2...\)</span> to <span class="math inline">\(B_1B_2...\)</span> where <span class="math inline">\(B_i = A_i \cup \{ \psi | \psi \models A_i, \psi \text{ subformula of } \varphi\}\)</span></p>
+<p>expand <span class="math inline">\(\sigma = A_1A_2...\)</span> to <span class="math inline">\(B_1B_2...\)</span> where <span class="math inline">\(B_i = A_i \cup \{ \psi | \psi \models A_i, \psi \text{ subformula of } \varphi\}\)</span></p>
 <dl>
 <dt>Closure of LTL formula</dt>
 <dd>
@@ -594,6 +598,112 @@ all subformulas and their negations
 <li>(expansion law) $U B (B (B U B’))</li>
 </ul></li>
 </ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Size of NBA can be exponential
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <strong>worst-case</strong> runtime for constructing an NBA that recognizes a formula is <strong>exponential</strong>. This is because the constructed NBA can be exponentially large. For example for <span class="math inline">\(n \in \mathbb{N}\)</span> consider</p>
+<p><span class="math display">\[\varphi_n := \bigwedge_{a \in AP} \bigwedge_{0 \leq i &lt; n} (\bigcirc^i a \leftrightarrow \bigcirc^{n+i} a)\]</span></p>
+<p>Intuitively we can see that after reading the first <span class="math inline">\(n\)</span> characters the automaton has to remember for all <span class="math inline">\(0 \leq i &lt; 0\)</span> and every <span class="math inline">\(a \in AP\)</span> if <span class="math inline">\(a\)</span> holds at position <span class="math inline">\(i\)</span>.</p>
+</div>
+</div>
+</div>
+<!-- illustrate difference between TS |= ~phi and TS ~|= phi -->
+<div id="def-algo-ltl-model-checking" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 13 (Algorithm for LTL Model Checking) </strong></span>Given an LTL-formula <span class="math inline">\(\varphi\)</span> and a transition system <span class="math inline">\(TS\)</span>.</p>
+<ol type="1">
+<li>Calculate a GNBA <span class="math inline">\(G_{\neg \varphi}\)</span> that recognizes <span class="math inline">\(\neg \varphi\)</span></li>
+<li>Turn <span class="math inline">\(G_{\neg \varphi}\)</span> into an equivalent NBA <span class="math inline">\(A_{\neg \varphi}\)</span></li>
+<li>Build the synchronous product <span class="math inline">\(TS \otimes A_{\neg \varphi}\)</span></li>
+<li>Check if <span class="math inline">\(TS \otimes A_{\neg \varphi} \models \diamond\square\neg F\)</span></li>
+</ol>
+<p>Time complexity: <span class="math inline">\(O( |TS| \cdot 2^{|\varphi|} )\)</span></p>
+</div>
+<section id="complexity-landscape" class="level3">
+<h3 class="anchored" data-anchor-id="complexity-landscape">Complexity landscape</h3>
+<p>First we define the considered problems.</p>
+<dl>
+<dt>LTL Model Checking Problem (<code>LTL-QUERY</code>)</dt>
+<dd>
+Given <span class="math inline">\(TS\)</span> and <span class="math inline">\(\varphi\)</span>. Does <span class="math inline">\(TS \models \varphi\)</span>?
+</dd>
+<dt>LTL Satisfiability Problem (<code>LTL-SAT</code>)</dt>
+<dd>
+Given <span class="math inline">\(\varphi\)</span>. Does a <span class="math inline">\(TS\)</span> exists such that <span class="math inline">\(TS \models \varphi\)</span>?
+</dd>
+<dt>LTL Validity Problem (`LTL-VALID)</dt>
+<dd>
+Givne <span class="math inline">\(\varphi\)</span>. Does it hold for all <span class="math inline">\(TS\)</span> that <span class="math inline">\(TS \models \varphi\)</span>? (Dual to LTL-SAT)
+</dd>
+</dl>
+<p>Further we recapitulate complexity classes.</p>
+<dl>
+<dt><code>PSPACE</code></dt>
+<dd>
+TM only needs polynomially large tape
+</dd>
+<dt><code>PSPACE-hard</code></dt>
+<dd>
+All problems <span class="math inline">\(P\)</span> such that <strong>every</strong> problem from <code>PSPACE</code> can be reduced to <span class="math inline">\(P\)</span>.
+</dd>
+<dt><code>PSPACE-complete</code></dt>
+<dd>
+All problems that are in <code>PSPACE</code> and <code>PSPACE-hard</code>.
+</dd>
+</dl>
+<div id="thm-co-np-hard" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 4 </strong></span></p>
+<p>The LTL model-checking and sat problem are co-NP-hard.</p>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Reducing <code>HAM-CYCLE</code> to LTL <code>UNSAT</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Because <code>HAM-CYCLE</code> is in NP we know that <code>LTL-SAT</code> is in co-NP.</p>
+<p><span class="math display">\[\varphi:= \neg \left( \bigwedge_{v \in V} \diamond v \land \square(v \rightarrow \bigcirc\square\neg v) \right)\]</span></p>
+</div>
+</div>
+</div>
+<div id="thm-pspace-complete" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 5 </strong></span></p>
+<p>The LTL model-checking problem is <code>PSPACE-complete</code></p>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Proving <code>PSPACE-hard</code>ness of <code>LTL-QUERY</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="computation-tree-logic-ctl" class="level2">
+<h2 class="anchored" data-anchor-id="computation-tree-logic-ctl">Computation Tree Logic (CTL)</h2>
 </section>
 
 </main>

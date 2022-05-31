@@ -39,7 +39,7 @@ where
 * a **labeling function** $L : S \rightarrow 2^{AP}$ that assigns propositions to each state
 :::
 
-::: {.callout-info}
+::: {.callout-note}
 ### Differences to finite automata
 * Possibly infinity state space.
 * No accepting states.
@@ -452,7 +452,7 @@ For NBA $A$ the NBA for $\bar{A}$ has $c^{n^2}$ states in worst case.
 Solution: use $A_{\neg \phi} \equiv \bar{A}$
 :::
 
-expant $\sigma = A_1A_2...$ to $B_1B_2...$
+expand $\sigma = A_1A_2...$ to $B_1B_2...$
 where 
 $B_i = A_i \cup 
 \{ \psi | \psi \models A_i, \psi \text{ subformula of } \phi\}$
@@ -482,3 +482,78 @@ Let
   * (expansion law)
     $\phi U \psi \in B \Leftrightarrow 
     (\psi \in B \lor (\phi \in B \land \phi U \psi \in B'\))
+
+::: {.callout-note collapse=true}
+### Size of NBA can be exponential
+
+The **worst-case** runtime for constructing an NBA that recognizes a formula is **exponential**.
+This is because the constructed NBA can be exponentially large.
+For example for $n \in \mathbb{N}$ consider 
+$$\phi_n := \bigwedge_{a \in AP} \bigwedge_{0 \leq i < n} (\next^i a \leftrightarrow \next^{n+i} a)$$
+
+Intuitively we can see that after reading the first $n$ characters the automaton has to remember
+for all $0 \leq i < 0$ and every $a \in AP$ if $a$ holds at position $i$.
+:::
+
+<!-- illustrate difference between TS |= ~phi and TS ~|= phi -->
+
+::: {#def-algo-ltl-model-checking}
+### Algorithm for LTL Model Checking
+
+Given an LTL-formula $\phi$ and a transition system $TS$.
+
+1. Calculate a GNBA $G_{\neg \phi}$ that recognizes $\neg \phi$
+2. Turn $G_{\neg \phi}$ into an equivalent NBA $A_{\neg \phi}$
+3. Build the synchronous product $TS \otimes A_{\neg \phi}$
+4. Check if $TS \otimes A_{\neg \phi} \models \dia \box \neg F$
+
+Time complexity: $O( |TS| \cdot 2^{|\phi|} )$
+:::
+
+### Complexity landscape
+
+First we define the considered problems.
+
+LTL Model Checking Problem (`LTL-QUERY`)
+: Given $TS$ and $\phi$. Does $TS \models \phi$?
+
+LTL Satisfiability Problem (`LTL-SAT`)
+: Given $\phi$. Does a $TS$ exists such that $TS \models \phi$?
+
+LTL Validity Problem (`LTL-VALID)
+: Givne $\phi$. Does it hold for all $TS$ that $TS \models \phi$? (Dual to LTL-SAT)
+
+Further we recapitulate complexity classes.
+
+`PSPACE`
+: TM only needs polynomially large tape
+
+`PSPACE-hard`
+: All problems $P$ such that **every** problem from `PSPACE` can be reduced to $P$.
+
+`PSPACE-complete`
+: All problems that are in `PSPACE` and `PSPACE-hard`.
+
+
+::: {#thm-co-np-hard}
+The LTL model-checking and sat problem are co-NP-hard.
+:::
+
+::: {.callout-note collapse=true}
+### Reducing `HAM-CYCLE` to LTL `UNSAT`
+
+Because `HAM-CYCLE` is in NP we know that `LTL-SAT` is in co-NP.
+
+$$\phi := \neg \left( \bigwedge_{v \in V} \dia v \land \box (v \rightarrow \next \box \neg v) \right)$$
+:::
+
+::: {#thm-pspace-complete}
+The LTL model-checking problem is `PSPACE-complete`
+:::
+
+::: {.callout-note collapse=true}
+### Proving `PSPACE-hard`ness of `LTL-QUERY`
+
+:::
+
+## Computation Tree Logic (CTL)
