@@ -17,13 +17,13 @@ format:
 
 Intuition
 
-Program | Automaton
-:------:|:--------:
-state | nodes
-stepwise behaviour | transition
+Program                | Automaton
+:---------------------:|:---------:
+state                  | nodes
+stepwise behaviour     | transition
 possible preconditions | init states
-communication | actions 
-atomic propositions | state properties
+communication          | actions
+atomic propositions    | state properties
 
 ::: {#def-transition-system}
 ### Transition System
@@ -557,3 +557,98 @@ The LTL model-checking problem is `PSPACE-complete`
 :::
 
 ## Computation Tree Logic (CTL)
+
+::: {#def-ctl}
+### CTL
+:::
+
+::: {#thm-from-ctl-to-ltl}
+### From CTL to LTL
+
+Let $\Phi$ be a CTL-formula and $\phi$ the LTL-formula obtained by deleting all quantifiers from $\Phi$.
+Then:
+
+$$\Phi \equiv \phi \textbf{ or } \Phi \text{ is not definable in LTL}$$
+:::
+
+::: {.callout-tip}
+### From LTL to CTL
+
+tips
+:::
+
+::: {#def-ctl-star}
+### CTL *
+:::
+
+::: {#def-ctl-plus}
+### CTL +
+:::
+
+::: {#thm-clt-plus-comparison}
+### Comparison of CTL+
+:::
+
+### CTL Model Checking
+
+Fixpoint iteration
+
+PTIME Complete
+
+### Simulation and Bisimulation
+### Bisimilar states
+### AP-deterministic
+### Trace equivalence vs Bisimularity
+
+### Bisimulation and CTL
+
+::: {#thm-bisimilarity-ctl}
+For a *finitely branching* transition system TS and states $s, s'$ it is **equivalent**:
+
+* $s \sim s'$
+* $s \equiv_{CTL} s'$
+* $s \equiv_{CTL*} s'$
+:::
+
+## Fairness
+
+Fairness **limits** the set of traces we consider when doing model checking.
+
+We want to remove traces that we consider *unrealistic*.
+
+### Types of Fairness
+
+Which fairness notion?:
+
+* strong fairness good for contentions
+* weak fairness good for unfair scheduling
+
+### Realisable Fairness
+
+### Model Checking Problems
+
+LTL Fairness Model Checking
+
+* transition system $TS$
+* LTL formula $\phi$
+* an LTL fairness assumption $fair$
+
+Question: does $TS \models_{fair} \phi$
+
+Can be reduced to normal model checking by considering $(fair \rightarrow \phi)$
+
+CTL Fairness Model Checking
+
+* transition system $TS$
+* CTL formula $\phi$
+* an CTL fairness assumption $fair$
+
+Question: does $TS \models_{fair} \phi$
+
+include fairness checking by **limiting** $\forall, \exists$ quantifiers to **fair paths**.
+
+How to change algo
+* add fresh atomic propositions for fairness conditions
+* when considering quantifiers check if the final path fragment is fair
+
+How to compute $SAT_{fair} (\exists \box a)$

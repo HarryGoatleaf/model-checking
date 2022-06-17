@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.434">
+<meta name="generator" content="quarto-99.9.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,13 +17,14 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 </style>
 
+
 <script src="notes_files/libs/clipboard/clipboard.min.js"></script>
 <script src="notes_files/libs/quarto-html/quarto.js"></script>
 <script src="notes_files/libs/quarto-html/popper.min.js"></script>
 <script src="notes_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="notes_files/libs/quarto-html/anchor.min.js"></script>
 <link href="notes_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="notes_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet">
+<link href="notes_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="notes_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="notes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="notes_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -53,7 +54,21 @@ ul.task-list{list-style: none;}
   <ul class="collapse">
   <li><a href="#complexity-landscape" id="toc-complexity-landscape" class="nav-link" data-scroll-target="#complexity-landscape">Complexity landscape</a></li>
   </ul></li>
-  <li><a href="#computation-tree-logic-ctl" id="toc-computation-tree-logic-ctl" class="nav-link" data-scroll-target="#computation-tree-logic-ctl">Computation Tree Logic (CTL)</a></li>
+  <li><a href="#computation-tree-logic-ctl" id="toc-computation-tree-logic-ctl" class="nav-link" data-scroll-target="#computation-tree-logic-ctl">Computation Tree Logic (CTL)</a>
+  <ul class="collapse">
+  <li><a href="#ctl-model-checking" id="toc-ctl-model-checking" class="nav-link" data-scroll-target="#ctl-model-checking">CTL Model Checking</a></li>
+  <li><a href="#simulation-and-bisimulation" id="toc-simulation-and-bisimulation" class="nav-link" data-scroll-target="#simulation-and-bisimulation">Simulation and Bisimulation</a></li>
+  <li><a href="#bisimilar-states" id="toc-bisimilar-states" class="nav-link" data-scroll-target="#bisimilar-states">Bisimilar states</a></li>
+  <li><a href="#ap-deterministic" id="toc-ap-deterministic" class="nav-link" data-scroll-target="#ap-deterministic">AP-deterministic</a></li>
+  <li><a href="#trace-equivalence-vs-bisimularity" id="toc-trace-equivalence-vs-bisimularity" class="nav-link" data-scroll-target="#trace-equivalence-vs-bisimularity">Trace equivalence vs Bisimularity</a></li>
+  <li><a href="#bisimulation-and-ctl" id="toc-bisimulation-and-ctl" class="nav-link" data-scroll-target="#bisimulation-and-ctl">Bisimulation and CTL</a></li>
+  </ul></li>
+  <li><a href="#fairness" id="toc-fairness" class="nav-link" data-scroll-target="#fairness">Fairness</a>
+  <ul class="collapse">
+  <li><a href="#types-of-fairness" id="toc-types-of-fairness" class="nav-link" data-scroll-target="#types-of-fairness">Types of Fairness</a></li>
+  <li><a href="#realisable-fairness" id="toc-realisable-fairness" class="nav-link" data-scroll-target="#realisable-fairness">Realisable Fairness</a></li>
+  <li><a href="#model-checking-problems" id="toc-model-checking-problems" class="nav-link" data-scroll-target="#model-checking-problems">Model Checking Problems</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -704,6 +719,100 @@ Proving <code>PSPACE-hard</code>ness of <code>LTL-QUERY</code>
 </section>
 <section id="computation-tree-logic-ctl" class="level2">
 <h2 class="anchored" data-anchor-id="computation-tree-logic-ctl">Computation Tree Logic (CTL)</h2>
+<div id="def-ctl" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 14 (CTL) </strong></span></p>
+</div>
+<div id="thm-from-ctl-to-ltl" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 6 (From CTL to LTL) </strong></span>Let <span class="math inline">\(\Phi\)</span> be a CTL-formula and <span class="math inline">\(\varphi\)</span> the LTL-formula obtained by deleting all quantifiers from <span class="math inline">\(\Phi\)</span>. Then:</p>
+<p><span class="math display">\[\Phi \equiv \varphi\textbf{ or } \Phi \text{ is not definable in LTL}\]</span></p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+From LTL to CTL
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>tips</p>
+</div>
+</div>
+<div id="def-ctl-star" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 15 (CTL *) </strong></span></p>
+</div>
+<div id="def-ctl-plus" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 16 (CTL +) </strong></span></p>
+</div>
+<div id="thm-clt-plus-comparison" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 7 (Comparison of CTL+) </strong></span></p>
+</div>
+<section id="ctl-model-checking" class="level3">
+<h3 class="anchored" data-anchor-id="ctl-model-checking">CTL Model Checking</h3>
+<p>Fixpoint iteration</p>
+<p>PTIME Complete</p>
+</section>
+<section id="simulation-and-bisimulation" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-and-bisimulation">Simulation and Bisimulation</h3>
+</section>
+<section id="bisimilar-states" class="level3">
+<h3 class="anchored" data-anchor-id="bisimilar-states">Bisimilar states</h3>
+</section>
+<section id="ap-deterministic" class="level3">
+<h3 class="anchored" data-anchor-id="ap-deterministic">AP-deterministic</h3>
+</section>
+<section id="trace-equivalence-vs-bisimularity" class="level3">
+<h3 class="anchored" data-anchor-id="trace-equivalence-vs-bisimularity">Trace equivalence vs Bisimularity</h3>
+</section>
+<section id="bisimulation-and-ctl" class="level3">
+<h3 class="anchored" data-anchor-id="bisimulation-and-ctl">Bisimulation and CTL</h3>
+<div id="thm-bisimilarity-ctl" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 8 </strong></span>For a <em>finitely branching</em> transition system TS and states <span class="math inline">\(s, s'\)</span> it is <strong>equivalent</strong>:</p>
+<ul>
+<li><span class="math inline">\(s \sim s'\)</span></li>
+<li><span class="math inline">\(s \equiv_{CTL} s'\)</span></li>
+<li><span class="math inline">\(s \equiv_{CTL*} s'\)</span></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="fairness" class="level2">
+<h2 class="anchored" data-anchor-id="fairness">Fairness</h2>
+<p>Fairness <strong>limits</strong> the set of traces we consider when doing model checking.</p>
+<p>We want to remove traces that we consider <em>unrealistic</em>.</p>
+<section id="types-of-fairness" class="level3">
+<h3 class="anchored" data-anchor-id="types-of-fairness">Types of Fairness</h3>
+<p>Which fairness notion?:</p>
+<ul>
+<li>strong fairness good for contentions</li>
+<li>weak fairness good for unfair scheduling</li>
+</ul>
+</section>
+<section id="realisable-fairness" class="level3">
+<h3 class="anchored" data-anchor-id="realisable-fairness">Realisable Fairness</h3>
+</section>
+<section id="model-checking-problems" class="level3">
+<h3 class="anchored" data-anchor-id="model-checking-problems">Model Checking Problems</h3>
+<p>LTL Fairness Model Checking</p>
+<ul>
+<li>transition system <span class="math inline">\(TS\)</span></li>
+<li>LTL formula <span class="math inline">\(\varphi\)</span></li>
+<li>an LTL fairness assumption <span class="math inline">\(fair\)</span></li>
+</ul>
+<p>Question: does <span class="math inline">\(TS \models_{fair} \varphi\)</span></p>
+<p>Can be reduced to normal model checking by considering <span class="math inline">\((fair \rightarrow \varphi)\)</span></p>
+<p>CTL Fairness Model Checking</p>
+<ul>
+<li>transition system <span class="math inline">\(TS\)</span></li>
+<li>CTL formula <span class="math inline">\(\varphi\)</span></li>
+<li>an CTL fairness assumption <span class="math inline">\(fair\)</span></li>
+</ul>
+<p>Question: does <span class="math inline">\(TS \models_{fair} \varphi\)</span></p>
+<p>include fairness checking by <strong>limiting</strong> <span class="math inline">\(\forall, \exists\)</span> quantifiers to <strong>fair paths</strong>.</p>
+<p>How to change algo * add fresh atomic propositions for fairness conditions * when considering quantifiers check if the final path fragment is fair</p>
+<p>How to compute <span class="math inline">\(SAT_{fair} (\exists \square a)\)</span></p>
+</section>
 </section>
 
 </main>
