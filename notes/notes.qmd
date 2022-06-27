@@ -648,7 +648,316 @@ Question: does $TS \models_{fair} \phi$
 include fairness checking by **limiting** $\forall, \exists$ quantifiers to **fair paths**.
 
 How to change algo
+
 * add fresh atomic propositions for fairness conditions
 * when considering quantifiers check if the final path fragment is fair
 
 How to compute $SAT_{fair} (\exists \box a)$
+
+## Bisimulation Quotient
+
+Ref def-bisimulation-relation
+
+::: {#def-quotient-transition-system}
+For $TS = (S, Act, \rightarrow, I, AP, L)$
+and its coarsest bisimulation $\sim_{TS} \subseteq S \times S$.
+We define the *quotient transition system*
+
+$$TS / \sim_{TS} = (S / \sim_{TS}, \{\tau\}, \rightarrow', I', AP, L')$$
+
+where
+
+* $S / \sim_{TS} = \{ [s]_\sim | s \in S \}$
+* $I' = \{ [s]_\sim | s \in I \}$
+* $L'([s]_\sim) = L(s)$
+* $s \rightarrow' s' \Leftrightarrow [s]_\sim \rightarrow [s']_\sim$
+:::
+
+::: {#thm-quotient-ts-bisimilar}
+Every transition system is bisimilar to its **bisimulation quotient**.
+:::
+
+How to find a quotient.
+
+block
+: pars of partition
+
+super-block
+: nonempty union of blocks
+
+a partition $P$ is *finer* than another partition $P'$ iff every 
+every block of $P$ is a super-block in $P'$
+
+```
+P := {(s, t) | L(s) = L(t)} // group states 
+                            // with equal 
+                            // atomic propositions
+while (P != Refine(P))      // fixpoint iteration
+  { P := Refine(P) }
+```
+
+We can refine the partition with a super-block $C$:
+
+```
+def Refine(P, C):
+
+```
+
+Strategies to choose $C$:
+
+1. **Simple** (Kanalakis&Smoka): 
+  try **all** blocks $O(\# \text{states} \cdot \# \text{transitions})$
+2. **Advanced** (Page&Tarjan): 
+    * step $n$: we split $B \in P$ into $B_1, B_2$ such that $|B_1| < |B_2|$,
+    * step $n+1$: we can calc `Refine(Refine(P, B_1), B_2)` by subroutine:
+    
+```
+def Refine(P, C, C' \ C):
+
+```
+
+## Simulation Preorder
+
+::: {#def-abstraction-function}
+### Abstraction Function
+$f : S \rightarrow \hat{S}$ is an abstraction function if 
+$f(s) = f(s') \Rightarrow L(s) = L(s')$
+:::
+
+<!-- TODO: maybe include types of abstraction -->
+
+::: {#def-abstraction-transition-system}
+### Abstraction Transition System
+
+For $TS = (S, \textcolor{gray}{Act}, \rightarrow, I, \textcolor{gray}{AP}, L)$ and abstraction function
+$f : S \rightarrow \hat{S}$ we define the **abstraction** of $TS$:
+$$TS_f = (\hat{S}, \textcolor{gray}{Act}, \rightarrow_f, I_f, \textcolor{gray}{AP}, L)$$
+
+* $f(s) \rightarrow_f f(s') \Leftrightarrow s \rightarrow s'$
+* $I_f = f(I)$
+* $L_f(f(s)) = L(s)$ (well defined because $f$ is an abstraction)
+:::
+
+::: {#lem-abstractions-are-simulations}
+The relation $\mathfrak{R} = \{ (s, f(s)) | s \in S \}$ is a **simulation** for
+$(TS, TS_f)$.
+:::
+
+::: {#def-simulation-equivalence}
+### Simulation Equivalence
+
+$$TS_1 \approxeq TS_2 \quad \text{ iff. } \quad TS_1 \leq TS_2 \text{ and } TS_2 \leq TS_1$$
+:::
+
+::: {#def-universal-ctl-star}
+### Universal fragment of $CTL^*$
+
+State formulas:
+
+$$\Phi ::= \true | \false | a | \neg a | \Phi \land \Phi | \Phi \lor \Phi | \forall \phi$$
+
+Path formulas:
+
+$$\phi ::= \Phi | \next \phi | \phi \land \phi | \phi \lor \phi | \phi \U \phi | \phi \R \phi$$
+:::
+
+::: {#lem-ltl-universal-ctl-star}
+For every LTL formula there exists an equivalent $\forall CTL^*$ formula
+:::
+
+::: {#thm-simulation-equivalence-ctl}
+### Simulation equivalence and $CTL$
+
+Let $TS$ be a *finitely branching* and $s, s'$ states in $TS$.
+Then it is equivalent:
+
+* $\Leftrightarrow$  $s \leq s'$
+* $\Leftrightarrow$ for any $\Phi \in \forall CTL^*$: $(s \models \Phi) \Leftarrow (s' \models \Phi)$
+* $\Leftrightarrow$ for any $\Phi \in \forall CTL$: $(s \models \Phi) \Leftarrow (s' \models \Phi)$
+* $\Leftrightarrow$ for any $\Phi \in \forall CTL_{\setminus \U, \R}$: $(s \models \Phi) \Leftarrow (s' \models \Phi)$
+:::
+
+## Stuttering
+
+::: {#def-stutter-step}
+### Stutter step
+
+A transition $s \rightarrow s'$ is a **stutter step** if $L(s) = L(s')$
+:::
+
+::: {#def-stutter-equivalence}
+### Stutter Path Equivalence
+Paths $\pi_1$ and $\pi_2$ are **stutter equivalent** if
+$trace(\pi_1)$ and $trace(\pi_2)$ are both of the form $A_0^+A_1^+A_2^+...$
+:::
+
+::: {#def-stutter-trace-equivalence} 
+### Stutter Trace Equivalence
+
+Transitionsystems $TS_1, TS_2$ are **stutter trace equivalent** if
+$$Traces(TS_1) /_{\equiv_\text{sttrace}} \ = \ Traces(TS_2) /_{\equiv_\text{sttrace}}$$
+:::
+
+::: {#def-stutter-bisimilarity}
+### Stutter Bisimilarity
+
+:::
+
+Stutter Path
+: Trace that only stutters. We say it **diverges**.
+
+Divergent state
+: A state from which there exists a stutter path.
+
+::: {.callout-warning}
+### Stutter Bisimilarity vs Stutter Trace Equivalence
+*Stutter bisimilarity* **DOES NOT** imply *stutter trace equivalence*.
+This is because stutter bisimilarity does not impose constraints on stutter paths.
+:::
+
+::: {#def-divergent-sensitive-stutter-bisimilarity}
+### Divergent-Sensitive Stutter Bisimilarity
+
+Bisimilarity where divergent states are only paired with divergent states.
+:::
+
+::: {.lem-div-stutter-bisimilarity-trace-equivalence}
+### Divergent-Sensitive Stutter Bisimilarity vs Stutter Trace Equivalence
+Divergent-sensitive stutter trace bisimilarity *implies* stutter trace equivalence.
+:::
+
+::: {#thm-div-stutter-bisimilarity-vs-ctl}
+### Divergent-Sensitive Stutter Bisimilarity vs CTL
+For a **finitely branching** $TS$ and states $s, s'$ it is equivalent:
+
+* $\Leftrightarrow$ $s \approx^{div}_{TS} s'$
+* $\Leftrightarrow$ $s \equiv_{CTL_{\setminus \next}} s'$
+* $\Leftrightarrow$ $s \equiv_{CTL_{\setminus \next}^*} s'$
+::: 
+
+### Refinement Algorithm
+
+$Pre_\Pi^*(B, C)$
+: All stutter-step predecessors of $C$ that are in $B$
+
+Splitters
+: A superblock $C$ is a splitter for a pars $B$ if 
+  $B \neq C$, $B \cap Pre(C) \neq \emptyset$ and 
+  $B \setminus Pre_\Pi^*(B, C) \neq \emptyset$
+  
+```
+Refine(B, C) = {B ∩ Pre*(B, C), B \ Pre*(B, C)} \ ø
+```
+
+Stutter Cycle
+: Cycle that only consists of stutter steps. 
+  All states on a stutter cycle are *divergent-sensitive stutter bisimilar*
+
+#### Performance Improvements
+
+* Find SCCs that only contain stutter steps
+* Collapse every Stutter SCC into a single state
+
+Exit/Bottom state
+: state in a block whose successors are all outside the block.
+
+No stutter cycles => each block has an exit state
+
+For finite TS without stutter cycles:
+
+$$B \setminus Pre_\Pi^*(B, C) \neq \emptyset \Leftrightarrow Bottom(B) \setminus Pre(C) \neq \emptyset$$
+
+Time Complexity: $O(\# \text{states} \cdot \# \text{transitions})$
+
+::: {#def-divergence-expansion}
+### Divergence Expansion
+
+* Add new state $s_{div}$ with $L(s_{div}) = div$
+* Add selfloop $s_{div} \rightarrow^\tau s_{div}$
+* Add edge from every divergent state on a stutter cycle to $s_{div}$
+
+On this expanded TS divergent-sensitive stutter bisimilarity and normal stutter bisimilarity coincide.
+
+Destillation:
+* replace $s \rightarrow s_{div}$ with $[s] \rightarrow [s]$
+* delete $s_{div}$
+:::
+
+## Partial Order Reduction
+
+Idea
+: Sometimes the order of actions is not important.
+  We can reduce the statespace by choosing one "representative" permutation of independent actions.
+
+::: {#def-action-deterministic}
+### Action Deterministic
+
+$TS$ is **action deterministic** iff for all states $s$:
+$$s \rightarrow^\alpha u \land s \rightarrow^\alpha v \Rightarrow u=v$$
+:::
+
+::: {.callout-tip collapse="true"}
+### How to make a TS action deterministic
+
+If for some state $s$ there exists two outgoing edges with the same action $\alpha$ 
+we introduce a new action $\alpha'$ and label one of the edges with it.
+:::
+
+::: {#def-action-independence}
+### Action Independence
+
+Let $TS$ be an *action-deterministic* transition system.
+Then $\alpha, \beta \in Act$ are called **independent** if for all states
+with $\alpha, \beta \in Act(s)$:
+$$\beta \in Act(\alpha(s)) \land \alpha \in Act(\beta(s)) \land \beta(\alpha(s)) = \alpha(\beta(s))$$
+
+<!-- include diamond image -->
+:::
+
+Stutter Action
+: An action where each transition is a **stutter step**.
+
+::: {#def-ample-set}
+
+1. **Non-emptiness condition** 
+  Select at least one action in every state.
+  $\forall s. ample(s) \neq \emptyset$
+2. **Dependency condition** in the original TS: an action depending on 
+  $ample(s)$ can only occur **after** some action in $ample(s)$ has occurred.
+3. **Stutter condition** 
+   If an enabled action is not selected, then all selected actions are stutter actions.
+   $\forall s. (ample(s) \neq Act(s) \rightarrow ample(s) \subseteq Act_{stutter})$
+4. **Cycle condition**
+   
+<!-- TODO: make shure finite/infinite is correkt -->
+:::
+
+<!-- maybe include naive dependency condition slide 34/52 -->
+
+::: {#cor-dependency-condition-implies-naive-dependency}
+For every $s \in Reach(TS)$ and $\alpha \in ample(s)$ we can conclude from 1. that:
+
+*  $\alpha is independent of $Act(s) \setminus ample(s)$.
+*  If there is a path 
+   $s = s_0 \rightarrow^{\beta_1} ... \rightarrow^{\beta_n} s_n$ in TS
+   and $\beta_1,...,\beta_n \notin ample(s)$ then:
+   $\alpha$ is independent of $\{\beta_1,...,\beta_n\}$ and
+   thereby $\forall_{0 \leq i \leq n} \alpha \in Act(s_i)$
+:::
+
+::: {#def-ample-set-reduction} 
+### Ample Set Reduction
+
+For $TS$ and ample sets $ample: S \rightarrow \mathfrak{P}(Act)$
+we define the **reduced** transition system
+$$TS_{red} := (S', Act, \Rightarrow, I, AP, L_{|S'})$$
+
+where:
+
+* $s \Rightarrow^\alpha s'$ iff. $s \rightarrow^\alpha s' \land \alpha \in ample(s)$
+* $S'$ are all states that are reachable via $\Rightarrow$
+* $L_{|S'} : S \rightarrow \mathfrak{P}(AP), s \mapsto L(s)$ 
+  is the reduction of $L$ to $S'$.
+:::
+
+## Symbolic Model Checking
