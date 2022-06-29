@@ -5,7 +5,7 @@ format:
     theme: darkly
     toc: true
     toc-depth: 3
-    self-contained: false
+    self-contained: true
     code-overflow: "wrap"
     code-line-numbers: true
 ---
@@ -918,8 +918,12 @@ Stutter Action
 : An action where each transition is a **stutter step**.
 
 ::: {#def-ample-set}
+### Ample Sets
 
-1. **Non-emptiness condition** 
+For each state $s$ we select a subset of outgoing edges $ample(s) \subseteq Act(s)$
+that satisfies the following conditions:
+
+1. **Non-emptiness condition**
   Select at least one action in every state.
   $\forall s. ample(s) \neq \emptyset$
 2. **Dependency condition** in the original TS: an action depending on 
@@ -961,3 +965,135 @@ where:
 :::
 
 ## Symbolic Model Checking
+
+Evaluation
+: Function that assigns a value to every variable $\nu : Var \rightarrow \{0, 1\}$
+
+Switching Function
+: A function that assigns a boolean value to an *evaluation*
+  $f : 2^{Var} \rightarrow \{0, 1\}$.
+  Can be used to encode sets
+  
+### Representing Switching Functions
+
+<!-- TODO: maybe explain that no perfect representation exists -->
+
+Binary Decision Tree (BDT)
+: Full binary tree of depth $\#\text{variables}$
+  The path to a leaf encodes an evaluation.
+  
+Ordered Binary Decision Diagram (OBDD)
+: Acyclic Graph.
+  Isomorphic subgraphs are collapsed into one node.
+  
+$f_v = \underbrace{(z \land (f_{succ_1(v)})) \lor (\neg z \land (f_{succ_0(v)}))}_\text{Shannon expansion}$
+
+::: {#def-consistent-cofactor}
+### Consistent Cofactor
+
+Let $v_1 <_\rho ... <_\rho v_n$ be some variabel order and $f$ a
+switching function on $Var = \{v_1,...,v_n\}$.
+Then $g$ is a **consistent cofactor** iff
+
+$$\exists i.\exists c_1,...,c_i.  (g = f|_{[v_1=c_1,...,v_i = c_i]})$$
+
+In other words 
+
+$$ g : 2^{n-i} \rightarrow \{0, 1\} \ , \ (x_{i+1}, ... x_{n}) \mapsto f(\textcolor{gray}{c_1,...,c_i},x_{i+1}, ..., x_n)$$
+
+<!-- include subtree image -->
+:::
+
+Reduced OBDD
+: OBDD without isomorphic subtrees.
+
+::: {#thm-universality-and-canonicity}
+### Universality and Canonicity
+
+For finite $Var$, fixed ordering and switching function.
+
+1. There exists a ROBDD
+2. Each pair of switching functions is isomorphic
+:::
+
+Essential Variable
+: A variable $x$ is essential iff $f|_{[x=1]} \neq f|_{[x=0]}$.
+
+Symmtric function
+: Generalisation of kommutativity to functions with $\geq 2$ arguments.
+  Means that function result is independent of permutation of inputs.
+  $f(x) = f(\sigma(x))$ for every permutation $\sigma$.
+
+::: {#lem-symmetric-functions-obdd}
+### Size of ROBDD for Symmetric Functions
+
+Let $f$ be a symmetric function with $m$ essential variables.
+Then for each variable ordering the ROBDD has size $O(m^2)$
+:::
+
+Finding best permutation of variables is very hard.
+
+Variable Sifting
+: Choose some x_i. For all j try order: $x_1,...x_{j-1}, x_i, x_{j},...,x_n$
+
+Interleaved Variable Order
+: Encode binary relation $(x, y)$ with n bits as $x_1,y_1,x_2,y_2,...x_n, y_n$.
+  In practice good to encode transition relations.
+  
+Shared OBDD
+: ROBDD with multiple root nodes.
+  Can be used to encode *multiple* switching functions.
+  
+Implementation of SOBDDs
+
+1. **unique** table
+  * entries: $\langle var(v), succ_1(v), succ_0(v) \rangle$
+  * main operation: `find_or_add(z, v1, v2)`
+  * keeps track of already created nodes
+  * implemented using hash-tables
+  
+::: {#def-ITE-normal-form}
+### ITE normal form
+
+We introduce the **if-then-else** operator $ITE(g, f_1, f_2) := (g \land f_1) \lor (\neg g \land f_0)$
+
+We can "push" substitutions inside:
+
+$$(ITE(g, f_1, f_2)) |_{[v := b]} = ITE(g|_{[v := b]}, f_1|_{[v := b]}, f_2|_{[v := b]})$$
+:::
+
+**Convert ITE to SOBDD**:
+
+$$\frac{f := ITE (g, f_1, f_2)}{ ITE (v^\bot, f|_{[v^\bot := 1]}, f|_{[v^\bot := 0]}) }$$
+
+where $v^\bot$ is the least variabel according to our variable ordering.
+
+## SAT-based Bounded Model Checking
+
+Checks for bugs of bounded length.
+
+Only used for LTL because CTL-counterexamples are harder to reason about.
+
+Idea
+: For a given $k$: unroll the TS to paths of length $k$ and check for property.
+  Unroll formulas as well.
+  
+::: {#def-lassos}
+An infinite path $\rho$ is a $(k, l)$-lasso iff:
+
+$$\forall i \geq 0. \quad \rho(l+i) = \rho(k+1 + i)$$
+
+i.e. the path is of the form
+
+$$\underbrace{s_0 s_1 s_2 ... s_{l-1}}_\text{stem} \underbrace{(s_l ... s_k)^\w}_\text{loop}$$
+:::
+
+<!--
+
+::: {#def-bounded-ltl-semantics}
+:::
+
+::: {#def-bounded-model-checking-encoding}
+:::
+
+-->
