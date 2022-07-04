@@ -10,11 +10,35 @@ format:
     code-line-numbers: true
 ---
 
+<!--general macros -->
 \newcommand{\w}{\omega}
 \newcommand{\phi}{\varphi}
+\newcommand{\true}{\texttt{true}}
+\newcommand{\false}{\texttt{false}}
+
+<!-- transition system macros -->
+\newcommand{\Act}{\texttt{Act}}
+\newcommand{\AP}{\texttt{AP}}
+
+<!-- program graph macros -->
+
+<!-- LTL macros -->
+<!-- tomporal -->
+\newcommand{\U}{\textbf{U}}
+\newcommand{\R}{\textbf{R}}
+\newcommand{\W}{\textbf{W}}
+\newcommand{\M}{\textbf{M}}
+<!-- modal -->
+\newcommand{\box}{\square}
+\newcommand{\dia}{\diamond}
+\newcommand{\cir}{\bigcirc}
+\newcommand{\next}{\bigcirc}
+
+<!-- CTL macros -->
 
 ## Transition Systems
 
+<!--
 Intuition
 
 Program                | Automaton
@@ -24,19 +48,21 @@ stepwise behaviour     | transition
 possible preconditions | init states
 communication          | actions
 atomic propositions    | state properties
+-->
 
 ::: {#def-transition-system}
 ### Transition System
 
-Formaly a transition system $T$ is a tuple $(S, Act, \rightarrow, S_0, AP, L)$
+Formaly a transition system $T$ is a tuple 
+$(S, \Act, \rightarrow, S_0, \AP, L)$
 where
 
 * $S$ countable set of **states**
-* $Act$ set of **actions**
-* $\rightarrow \ \subseteq S \times Act \times S$ a **transition relation**
+* $\Act$ set of **actions**
+* $\rightarrow \ \subseteq S \times \Act \times S$ a **transition relation**
 * $S_0 \subseteq S$ a set of **initial states**
-* set of **atomic propositions** $AP$ with
-* a **labeling function** $L : S \rightarrow 2^{AP}$ that assigns propositions to each state
+* set of **atomic propositions** $\AP$ with
+* a **labeling function** $L : S \rightarrow 2^{\AP}$ that assigns propositions to each state
 :::
 
 ::: {.callout-note}
@@ -80,24 +106,24 @@ Program graphs are an abstraction of (imperative) programs.
 #### Program Graph
 
 A program graph is a tuple
-$$(Loc, Act, Effect, \hookrightarrow, Loc_0, g_0)$$
+$$(Loc, \Act, Effect, \hookrightarrow, Loc_0, g_0)$$
 
 where
 
 * $Loc$ is a set of **locations** (roughtly corresponds to code lines)
-* $Act$ is a set of **actions**
-* $Effect: Act \times Eval(Var) \rightarrow Eval(Var)$ models the **effect** of actions
-* $\hookrightarrow \subseteq Loc \times Cond(Var) \times Act \times Loc$ is the **edge relation**
+* $\Act$ is a set of **actions**
+* $Effect: \Act \times Eval(Var) \rightarrow Eval(Var)$ models the **effect** of actions
+* $\hookrightarrow \subseteq Loc \times Cond(Var) \times \Act \times Loc$ is the **edge relation**
 * $g_0 \in Cond(Var)$ is the **initial condition**
 :::
 
 ### Translating Program Graphs to Transition Systems
 
-Let $PG = (Loc, Act, Effect, \hookrightarrow, Loc_0, g_0)$ be a program graph.
-Then this can be modeled by the transition system $(S, Act, \rightarrow I, AP, L)$ where
+Let $PG = (Loc, \Act, Effect, \hookrightarrow, Loc_0, g_0)$ be a program graph.
+Then this can be modeled by the transition system $(S, \Act, \rightarrow I, \AP, L)$ where
 
 * $S = Loc \times Eval(Var)$
-* $\rightarrow \subseteq S \times Act \times S$ can be deduced by the following rule
+* $\rightarrow \subseteq S \times \Act \times S$ can be deduced by the following rule
   $$\frac{l \xhookrightarrow{g:\alpha} l' \land \eta \models g} {\langle l, \eta \rangle \xrightarrow{\alpha} \langle l', Effect(\alpha, \eta) \rangle}$$
 * $I = \{ \langle l, \eta \rangle | l \in Loc_0, \eta \models g_0 \}$
 * $L( \langle l, \eta \rangle) = \{l\} \cup \{g \in Cond(Var) | \eta \models g \}$
@@ -111,7 +137,7 @@ We can model multi-threaded execution **without shared variables** by interleavi
 
 Let $TS_1, TS_2$ be two transition systems.
 Then
-$$TS_1 \ ||| \ TS_2 := (S_1 \times S_2, Act_1 \uplus Act_2, \rightarrow, I_1 \times I_2, AP_1 \uplus AP_2, L)$$
+$$TS_1 \ ||| \ TS_2 := (S_1 \times S_2, \Act_1 \uplus \Act_2, \rightarrow, I_1 \times I_2, \AP_1 \uplus \AP_2, L)$$
 
 * $L(\langle s_1, s_2 \rangle) = L_1(s_1) \cup L_2(s_2)$
 * And $\rightarrow$ can be deduced by the following rule:
@@ -130,10 +156,10 @@ We can model multi-threaded execution **with shared variables** by interleaving 
 #### Interleaving program graphs
 
 Let $PG_1, PG_2$ be two program graphs over the **same variables**. Then
-$PG_1 \ ||| \ PG_2 := (Loc_1 \times Loc_2, Act_1 \uplus Act_2, Effect, \hookrightarrow,$ \
+$PG_1 \ ||| \ PG_2 := (Loc_1 \times Loc_2, \Act_1 \uplus \Act_2, Effect, \hookrightarrow,$ \
 $Loc_{0,1} \uplus Loc_{0,2}, g_{0, 1} \land g_{0, 2})$
 
-* $Effect(\alpha, \eta) = Effect_i(\alpha, \eta)$ for $\alpha \in Act_i$.
+* $Effect(\alpha, \eta) = Effect_i(\alpha, \eta)$ for $\alpha \in \Act_i$.
 * And $\hookrightarrow$ can be deduced by the following rule:
   $$ 
   \frac{l_1 \xhookrightarrow{g:\alpha} l_1'} 
@@ -157,8 +183,8 @@ State space grows **exponentially** with number of **threads** and **variables**
 
 ::: {#def-linear-time-property}
 ### Linear Time Property
-A **linear-time property** over some atomic propositions $AP$ is a subset of 
-$\left(2^{AP}\right)^\omega$.
+A **linear-time property** over some atomic propositions $\AP$ is a subset of 
+$\left(2^{\AP}\right)^\omega$.
 
 A transitionsystem $TS$ satisfies a LT property $P$
 
@@ -166,11 +192,11 @@ $$TS \models P \text{ iff. } Traces(TS) \subseteq P$$
 :::
 
 Invariant
-: LT property of the form $A^\w$ for some $A \subseteq 2^{AP}$ i.e.
+: LT property of the form $A^\w$ for some $A \subseteq 2^{\AP}$ i.e.
   "some property holds forever"
 
 Persistance Property
-: LT property of the form ${(2^{AP})}^* A^\w$ i.e.
+: LT property of the form ${(2^{\AP})}^* A^\w$ i.e.
   "some property eventually holds forever"
 
 Closure
@@ -181,8 +207,8 @@ Closure
 
 ::: {#def-safety-property}
 ### Safety Property
-A LT property $S$ over AP is a **safety property** if for all
-$\sigma \in (2^{AP})^\omega \setminus S$
+A LT property $S$ over $\AP$ is a **safety property** if for all
+$\sigma \in (2^{\AP})^\omega \setminus S$
 we can find a "bad prefix" $\hat{\sigma}$
 such that no word in $S$ has prefix $\hat{\sigma}$
 
@@ -194,9 +220,9 @@ Trace Equivalence != Finite Trace Equivalence
 
 ::: {#def-liveness-property}
 ### Liveness Property
-LT property $L$ over $AP$ is a **liveness property** iff.
+LT property $L$ over $\AP$ is a **liveness property** iff.
 
-$$pref(L) = {2^{AP}}^*$$
+$$pref(L) = {2^{\AP}}^*$$
 :::
 
 ::: {#def-w-regular-expression}
@@ -249,20 +275,17 @@ $$Traces(TS) \subseteq Traces(TS') \Leftrightarrow
 #### Synchronous Product
 Let:
 
-* $TS := (S, Act, \rightharpoonup, I, AP, L)$ without terminal states
+* $TS := (S, \Act, \rightharpoonup, I, \AP, L)$ without terminal states
 * $A := (Q, \Sigma, \rightharpoondown, Q_0, F)$ and NFA
-  * $\Sigma = 2^{AP}$ i.e. defines trace prefixes
-  * $Q_0 \cap F = \emptyset$
-
-Let $TS$ be a transition system without terminal states and \
-$A$ an NFA with $\Sigma = 2^{AP}$ and $Q_0 \cap F = \emptyset$
+  * $\Sigma = 2^{\AP}$ (A has to define traces)
+  * $Q_0 \cap F = \emptyset$ (A can't accept $\varepsilon$ because this safetyproperty would be unsatisfiable)
 
 Then:
 
-$$TS \otimes A := (S', Act, \rightarrow, I', AP', L')$$
+$$TS \otimes A := (S', \Act, \rightarrow, I', \AP', L')$$
 
 * $S' = S \times Q$
-* $AP' = Q$
+* $\AP' = Q$
 * $L'( \langle s, q \rangle) = \{q\}$
 * $\rightarrow$ can be deduced by:
 
@@ -355,23 +378,10 @@ Strongly Connected Component ([SCC](https://en.wikipedia.org/wiki/Strongly_conne
 <!-- lecture 6 end -->
 
 ## Linear Temporal Logic (LTL)
-<!-- macros -->
-\newcommand{\true}{\texttt{true}}
-\newcommand{\false}{\texttt{false}}
-<!-- tomporal -->
-\newcommand{\U}{\textbf{U}}
-\newcommand{\R}{\textbf{R}}
-\newcommand{\W}{\textbf{W}}
-\newcommand{\M}{\textbf{M}}
-<!-- modal -->
-\newcommand{\box}{\square}
-\newcommand{\dia}{\diamond}
-\newcommand{\cir}{\bigcirc}
-\newcommand{\next}{\bigcirc}
 
-For a set of atomic propositions $AP$ we give the BNF grammar for LTL:
+For a set of atomic propositions $\AP$ we give the BNF grammar for LTL:
 
-* $\phi = a \text{ for } a \in AP$
+* $\phi = a \text{ for } a \in \AP$
 * $\phi = \true | \phi \lor \phi | \neg \phi$
 * $\phi = \cir \phi$ "next"
 * $\phi = \phi \U \phi$ "until"
@@ -474,7 +484,7 @@ Let
   * $\phi U \psi \in B \land \psi \notin B \Rightarrow \phi \in B$
 :::
 
-* $\Sigma = 2^{AP}$
+* $\Sigma = 2^{\AP}$
 * $Q := $ elementary sets
 * $Q_0$ all sets with $\phi$
 * $\delta := $
@@ -489,10 +499,10 @@ Let
 The **worst-case** runtime for constructing an NBA that recognizes a formula is **exponential**.
 This is because the constructed NBA can be exponentially large.
 For example for $n \in \mathbb{N}$ consider 
-$$\phi_n := \bigwedge_{a \in AP} \bigwedge_{0 \leq i < n} (\next^i a \leftrightarrow \next^{n+i} a)$$
+$$\phi_n := \bigwedge_{a \in \AP} \bigwedge_{0 \leq i < n} (\next^i a \leftrightarrow \next^{n+i} a)$$
 
 Intuitively we can see that after reading the first $n$ characters the automaton has to remember
-for all $0 \leq i < 0$ and every $a \in AP$ if $a$ holds at position $i$.
+for all $0 \leq i < 0$ and every $a \in \AP$ if $a$ holds at position $i$.
 :::
 
 <!-- illustrate difference between TS |= ~phi and TS ~|= phi -->
@@ -659,11 +669,11 @@ How to compute $SAT_{fair} (\exists \box a)$
 Ref def-bisimulation-relation
 
 ::: {#def-quotient-transition-system}
-For $TS = (S, Act, \rightarrow, I, AP, L)$
+For $TS = (S, \Act, \rightarrow, I, \AP, L)$
 and its coarsest bisimulation $\sim_{TS} \subseteq S \times S$.
 We define the *quotient transition system*
 
-$$TS / \sim_{TS} = (S / \sim_{TS}, \{\tau\}, \rightarrow', I', AP, L')$$
+$$TS / \sim_{TS} = (S / \sim_{TS}, \{\tau\}, \rightarrow', I', \AP, L')$$
 
 where
 
@@ -729,9 +739,9 @@ $f(s) = f(s') \Rightarrow L(s) = L(s')$
 ::: {#def-abstraction-transition-system}
 ### Abstraction Transition System
 
-For $TS = (S, \textcolor{gray}{Act}, \rightarrow, I, \textcolor{gray}{AP}, L)$ and abstraction function
+For $TS = (S, \textcolor{gray}{\Act}, \rightarrow, I, \textcolor{gray}{\AP}, L)$ and abstraction function
 $f : S \rightarrow \hat{S}$ we define the **abstraction** of $TS$:
-$$TS_f = (\hat{S}, \textcolor{gray}{Act}, \rightarrow_f, I_f, \textcolor{gray}{AP}, L)$$
+$$TS_f = (\hat{S}, \textcolor{gray}{\Act}, \rightarrow_f, I_f, \textcolor{gray}{AP}, L)$$
 
 * $f(s) \rightarrow_f f(s') \Leftrightarrow s \rightarrow s'$
 * $I_f = f(I)$
@@ -888,12 +898,14 @@ Destillation:
 Idea
 : Sometimes the order of actions is not important.
   We can reduce the statespace by choosing one "representative" permutation of independent actions.
+  
+![Diamond](./pics/partial_order_reduction_idea.png)
 
 ::: {#def-action-deterministic}
 ### Action Deterministic
 
 $TS$ is **action deterministic** iff for all states $s$:
-$$s \rightarrow^\alpha u \land s \rightarrow^\alpha v \Rightarrow u=v$$
+$$s \xrightarrow{\alpha} u \land s \xrightarrow{\alpha} v \Rightarrow u=v$$
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -907,11 +919,15 @@ we introduce a new action $\alpha'$ and label one of the edges with it.
 ### Action Independence
 
 Let $TS$ be an *action-deterministic* transition system.
-Then $\alpha, \beta \in Act$ are called **independent** if for all states
-with $\alpha, \beta \in Act(s)$:
-$$\beta \in Act(\alpha(s)) \land \alpha \in Act(\beta(s)) \land \beta(\alpha(s)) = \alpha(\beta(s))$$
+Then $\alpha, \beta \in \Act$ are called **independent** if for all states
+with $\alpha, \beta \in \Act(s)$:
+$$\beta \in \Act(\alpha(s)) \land \alpha \in \Act(\beta(s)) \land \beta(\alpha(s)) = \alpha(\beta(s))$$
 
-<!-- include diamond image -->
+![Action Independence Diamond](./pics/action_independence.png)
+
+We say $\alpha$ is independent of $B \subseteq \Act \setminus \{\alpha\}$ iff alpha is independent of every action in $B$.
+
+<!-- TODO: maybe improve image -->
 :::
 
 Stutter Action
@@ -920,7 +936,7 @@ Stutter Action
 ::: {#def-ample-set}
 ### Ample Sets
 
-For each state $s$ we select a subset of outgoing edges $ample(s) \subseteq Act(s)$
+For each state $s$ we select a subset of outgoing edges $ample(s) \subseteq \Act(s)$
 that satisfies the following conditions:
 
 1. **Non-emptiness condition**
@@ -952,15 +968,15 @@ For every $s \in Reach(TS)$ and $\alpha \in ample(s)$ we can conclude from 1. th
 ::: {#def-ample-set-reduction} 
 ### Ample Set Reduction
 
-For $TS$ and ample sets $ample: S \rightarrow \mathfrak{P}(Act)$
+For $TS$ and ample sets $ample: S \rightarrow 2^\Act$
 we define the **reduced** transition system
-$$TS_{red} := (S', Act, \Rightarrow, I, AP, L_{|S'})$$
+$$TS_{red} := (S', \Act, \Rightarrow, I, \AP, L_{|S'})$$
 
 where:
 
 * $s \Rightarrow^\alpha s'$ iff. $s \rightarrow^\alpha s' \land \alpha \in ample(s)$
 * $S'$ are all states that are reachable via $\Rightarrow$
-* $L_{|S'} : S \rightarrow \mathfrak{P}(AP), s \mapsto L(s)$ 
+* $L_{|S'} : S \rightarrow \mathfrak{P}(\AP), s \mapsto L(s)$ 
   is the reduction of $L$ to $S'$.
 :::
 
