@@ -14,15 +14,15 @@
 		3000
 	],
 
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"quarto.quarto"
-			]
-		}
-	},
+//	"customizations": {
+//		"vscode": {
+//			"extensions": [
+//				"quarto.quarto"
+//			]
+//		}
+//	},
 	
-	"postCreateCommand": "quarto preview ./notes.qmd --port 3000"
+	//"postCreateCommand": "quarto preview ./notes.qmd --port 3000"
 	
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
 	// "postCreateCommand": "apt-get update && apt-get install -y curl",
