@@ -36,7 +36,8 @@ format:
 
 <!-- CTL macros -->
 
-## Transition Systems
+## Fundamental Concepts
+### Transition Systems
 
 <!--
 Intuition
@@ -98,7 +99,7 @@ Trace
 : Let $s_0s_1...$ be a path, then $L(s_0)L(s_1)...$ is a trace.
   In other words a trace is the sequence of atomic propositions that hold along a path.
 
-### Program Graph
+### Program Graphs
 
 Program graphs are an abstraction of (imperative) programs.
 
@@ -379,14 +380,16 @@ Strongly Connected Component ([SCC](https://en.wikipedia.org/wiki/Strongly_conne
 
 ## Linear Temporal Logic (LTL)
 
+::: {#def-ltl}
 For a set of atomic propositions $\AP$ we give the BNF grammar for LTL:
 
 * $\phi = a \text{ for } a \in \AP$
 * $\phi = \true | \phi \lor \phi | \neg \phi$
 * $\phi = \cir \phi$ "next"
 * $\phi = \phi \U \phi$ "until"
+:::
 
-**Derived Operators**:
+Additionally we will use the following **derived operators**:
 
 * the usual: \
   $\false, \lor, \leftarrow, \rightarrow, \leftrightarrow, \otimes$
@@ -400,7 +403,7 @@ For a set of atomic propositions $\AP$ we give the BNF grammar for LTL:
   * "strong release"
   $\phi \M \psi := (\phi \R \psi) \land \dia \phi$
   
-**Equivalences**:
+### Equivalences
 
 **Dualities**:
 
@@ -427,6 +430,7 @@ For a set of atomic propositions $\AP$ we give the BNF grammar for LTL:
 * $\box (\phi \land \psi) \equiv \box \phi \land \box \psi$
 
 ::: {.callout-caution}
+#### Watch out for these false friends
 
 * $\dia (\phi \land \psi) \not \equiv \dia \phi \land \dia \psi$
 * $\box (\phi \lor \psi) \not \equiv \box \phi \lor \box \psi$
@@ -442,8 +446,9 @@ For a set of atomic propositions $\AP$ we give the BNF grammar for LTL:
 <!-- TODO: formal semantics -->
 <!-- TODO: examples -->
 
-## Model checking of LTL
+### LTL Model Checking
 
+<!-- TODO: maybe move this to NBA def -->
 ::: {#def-gnba}
 ### Generalized Büchi Automata
 
@@ -456,42 +461,53 @@ A run $r_1r_2...$ on this automaton is **accepting** if:
 $$\forall F_j. \exists^\infty i. r_i \in F_j$$
 :::
 
-::: {.callout-note}
-For NBA $A$ the NBA for $\bar{A}$ has $c^{n^2}$ states in worst case.
+::: {#def-closure}
+### Closure
 
-Solution: use $A_{\neg \phi} \equiv \bar{A}$
+Let $\phi$ be an LTL-formula. 
+Then the **closure** of $\phi$ contains all subformulas of $\phi$ and their negation^[where $\psi$ and $\neg \neg \psi$ are identified].
+We denote the closure of $\phi$ with $cl(\phi)$.
 :::
-
-expand $\sigma = A_1A_2...$ to $B_1B_2...$
-where 
-$B_i = A_i \cup 
-\{ \psi | \psi \models A_i, \psi \text{ subformula of } \phi\}$
-
-Closure of LTL formula
-: all subformulas and their negations
 
 ::: {#def-elementary-sets}
-### Elementary sets
+### Elementary Sets
 
-Let
+Let $\phi$ be an LTL-formula. Then a set $B \subseteq cl(\phi)$ is **elementary** if it is:
 
-1. maximaly consistent:
-  * $\phi \land \psi \in B \Leftrightarrow \phi \in B \land \psi \in B$
-  * $\phi \notin B \Leftrightarrow \neg \phi \in B$
-  * $true \in cl(\phi) \Rightarrow true \in B$
-2. locally consistent: for $\phi U \psi \in cl(\sigma)$
-  * $\psi \in B \Rightarrow \phi U \psi \in B$
-  * $\phi U \psi \in B \land \psi \notin B \Rightarrow \phi \in B$
+1. Maximaly Consistent for $\land, \neg$
+    * $\phi \land \psi \in B \Leftrightarrow \phi \in B \land \psi \in B$
+    * $\phi \notin B \Leftrightarrow \neg \phi \in B$
+    * $true \in cl(\phi) \Rightarrow true \in B$
+2. Locally Consistent for $\U$ \
+   for every $\phi \U \psi \in cl(\sigma)$:
+    * $\psi \in B \Rightarrow \phi \U \psi \in B$
+    * $\phi \U \psi \in B \land \psi \notin B \Rightarrow \phi \in B$
+
+<!-- intuition/motivation: expand $\sigma = A_1A_2...$ to $B_1B_2...$ where $B_i = A_i \cup \{ \psi | \psi \models A_i, \psi \text{ subformula of } \phi\}$ -->
 :::
 
-* $\Sigma = 2^{\AP}$
-* $Q := $ elementary sets
-* $Q_0$ all sets with $\phi$
-* $\delta := $
-  * $\circ \phi \in B \Leftrightarrow \phi \in B'$
-  * (expansion law)
-    $\phi U \psi \in B \Leftrightarrow 
-    (\psi \in B \lor (\phi \in B \land \phi U \psi \in B'\))
+::: {#def-ltl-to-gnba}
+### LTL to GNBA
+
+Let $\phi$ be an LTL-formula over $\AP$. 
+We assume that $\phi$ only contains $\land, \neg, \next, \U$.
+
+* $\Sigma := 2^{\AP}$
+* $Q :=$ elementary sets of $\phi$
+* $Q_0 :=$ all elementary sets containing $\phi$
+* $B' \in \delta(B, l)$ iff.
+    * $l = B \cap \AP$ i.e. all outgoing edges are labeled with $B \cap \AP$
+    * $\next \phi \in B \Leftrightarrow \phi \in B'$
+    * $\phi \U \psi \in B \Leftrightarrow (\psi \in B \lor (\phi \in B \land \phi \U \psi \in B'))$
+* $\mathfrak{F} := \{ F_{\phi_1 \U \phi_2} \ | \ \phi_1 \U \phi_2 \in cl(\phi)\}$ where \
+  $F_{\phi_1 \U \phi_2} := \{ B \in Q | \phi_1 \U \phi_2 \notin B \text{ or } \phi_2 \in B \}$
+:::
+
+::: {.callout-note}
+For NBA $A$ the NBA for $\overline{A}$ has $c^{n^2}$ states in worst case.
+
+Solution: First negate the formula and then construct the NBA. I.E. use $A_{\neg \phi} \equiv \overline{A}$.
+:::
 
 ::: {.callout-note collapse=true}
 ### Size of NBA can be exponential
@@ -512,65 +528,50 @@ for all $0 \leq i < 0$ and every $a \in \AP$ if $a$ holds at position $i$.
 
 Given an LTL-formula $\phi$ and a transition system $TS$.
 
-1. Calculate a GNBA $G_{\neg \phi}$ that recognizes $\neg \phi$
-2. Turn $G_{\neg \phi}$ into an equivalent NBA $A_{\neg \phi}$
+1. Calculate a GNBA $G_{\neg \phi}$ that recognizes $\neg \phi$.
+2. Calculate a NBA $A_{\neg \phi}$ that recognizes the same language as $G_{\neg \phi}$.
 3. Build the synchronous product $TS \otimes A_{\neg \phi}$
 4. Check if $TS \otimes A_{\neg \phi} \models \dia \box \neg F$
 
 Time complexity: $O( |TS| \cdot 2^{|\phi|} )$
 :::
 
-### Complexity landscape
-
-First we define the considered problems.
-
-LTL Model Checking Problem (`LTL-QUERY`)
-: Given $TS$ and $\phi$. Does $TS \models \phi$?
-
-LTL Satisfiability Problem (`LTL-SAT`)
-: Given $\phi$. Does a $TS$ exists such that $TS \models \phi$?
-
-LTL Validity Problem (`LTL-VALID)
-: Givne $\phi$. Does it hold for all $TS$ that $TS \models \phi$? (Dual to LTL-SAT)
-
-Further we recapitulate complexity classes.
-
-`PSPACE`
-: TM only needs polynomially large tape
-
-`PSPACE-hard`
-: All problems $P$ such that **every** problem from `PSPACE` can be reduced to $P$.
-
-`PSPACE-complete`
-: All problems that are in `PSPACE` and `PSPACE-hard`.
-
-
-::: {#thm-co-np-hard}
-The LTL model-checking and sat problem are co-NP-hard.
-:::
-
-::: {.callout-note collapse=true}
-### Reducing `HAM-CYCLE` to LTL `UNSAT`
-
-Because `HAM-CYCLE` is in NP we know that `LTL-SAT` is in co-NP.
-
-$$\phi := \neg \left( \bigwedge_{v \in V} \dia v \land \box (v \rightarrow \next \box \neg v) \right)$$
-:::
-
-::: {#thm-pspace-complete}
-The LTL model-checking problem is `PSPACE-complete`
-:::
-
-::: {.callout-note collapse=true}
-### Proving `PSPACE-hard`ness of `LTL-QUERY`
-
-:::
 
 ## Computation Tree Logic (CTL)
 
 ::: {#def-ctl}
 ### CTL
+
+For a set of atomic propositions $\AP$ we give the BNF grammar for **CTL state-formulas**:
+
+* $\Phi = a \text{ for } a \in \AP$
+* $\Phi = \true \mid \phi \lor \phi \mid \neg \phi$
+* $\Phi = \exists \phi \mid \forall \phi$
+
+And the following grammar for **CTL path-formulas**:
+
+* $\phi = \cir \Phi$ "next"
+* $\phi = \Phi \U \Phi$ "until"
 :::
+
+Additionally we will use the same derived operators as with @def-ltl:
+
+::: {#def-ctl-semantics}
+### CTL Semantics
+
+TODO
+
+The model of a CTL formula consists of a transition system and a state.
+
+For a fixed transition system $TS$ with states $S$ we define:
+$$Sat(\Phi) = \{ s \in S \mid TS, s \models \Phi \}$$
+
+Let $S_0$ be the set of initial states of $TS$. Then we can lift the *models* relation to transition systems in the following way:
+
+$$TS \models \Phi \quad :\Leftrightarrow \quad S_0 \subseteq Sat(\Phi)$$
+:::
+
+### CTL vs LTL
 
 ::: {#thm-from-ctl-to-ltl}
 ### From CTL to LTL
@@ -603,17 +604,97 @@ tips
 
 Fixpoint iteration
 
-PTIME Complete
+## Complexity landscape
 
-### Simulation and Bisimulation
-### Bisimilar states
-### AP-deterministic
-### Trace equivalence vs Bisimularity
+First we define the considered problems.
 
-### Bisimulation and CTL
+LTL Model Checking Problem (`LTL-QUERY`)
+: Given $TS$ and $\phi$. Does $TS \models \phi$?
 
-::: {#thm-bisimilarity-ctl}
-For a *finitely branching* transition system TS and states $s, s'$ it is **equivalent**:
+LTL Satisfiability Problem (`LTL-[UN]SAT`)
+: Given $\phi$. Does a $TS$ exists such that $TS \models \phi$? [resp. $TS \not \models \phi$]
+
+LTL Validity Problem (`LTL-VALID`)
+: Given $\phi$. Does it hold for all $TS$ that $TS \models \phi$?
+
+This can be extended in the obvious way to `CTL-QUERY`, `CTL-SAT`, `CTL-VALID`.
+We assume that the reader is familiar with `P`, `NP`, `NP-hard`, `NP-complete`, `co-NP`, ...
+
+`PSPACE`
+: TM only needs polynomially large tape.
+
+`PSPACE-hard`
+: All problems $P$ such that **every** problem from `PSPACE` can be reduced to $P$.
+
+`PSPACE-complete`
+: All problems that are in `PSPACE` and `PSPACE-hard`.
+
+
+::: {#thm-co-np-hard}
+The LTL model-checking and sat problem are `co-NP-hard`.
+:::
+
+::: {.callout-note collapse=true}
+### Reducing `HAM-CYCLE` to `LTL-UNSAT`
+
+Because `HAM-CYCLE` is in NP we know that `LTL-SAT` is in `co-NP`.
+
+$$\phi := \neg \left( \bigwedge_{v \in V} \dia v \land \box (v \rightarrow \next \box \neg v) \right)$$
+:::
+
+::: {#thm-pspace-complete}
+The LTL model-checking problem is `PSPACE-complete`
+:::
+
+::: {.callout-note collapse=true}
+### Proving `PSPACE-hard`ness of `LTL-QUERY`
+
+:::
+
+
+## Simulation and Bisimulation
+
+::: {#def-bisimulation-relation}
+### Bisimulation Relation
+
+Let $TS, TS'$ be two transition systems.
+A relation $\mathfrak{R} \subseteq (S \cup S')^2$ is a **bisimulation** for $(TS, TS')$ if:
+
+* $\mathfrak{R}$ is symetric
+* $\mathfrak{R}$ is *compatible* with the labeling: $(s, s') \in \mathfrak{R} \Rightarrow L(s) = L'(s')$
+* The initial states are similar in the sense that:
+    * for all $s \in S_0$ there exists $s' \in S_0'$ such that $(s, s') \in \mathfrak{R}$
+    * for all $s' \in S_0'$ there exists $s \in S_0$ such that $(s, s') \in \mathfrak{R}$
+* Successor states are similar^[in MaLo this property is called "Hin&Her Eigenschaft"] 
+  in the sense that for all $(s, s') \in \mathfrak{R}$:
+    * for all $p \in Post(s)$ there exists $p' \in Post(s')$ such that $(p, p') \in \mathfrak{R}$
+    * for all $p' \in Post(s')$ there exists $p \in Post(s')$ such that $(p, p') \in \mathfrak{R}$
+:::
+
+::: {#def-ap-deterministic}
+### AP Deterministic
+
+A transition system $TS$ is **AP-deterministic** if 
+
+* $|S_0| \leq 1$ 
+* for all $A \in 2^\AP$ we have that $|Post(s) \cap \{ s' \in S | L(s') = A \}| \leq 1$
+:::
+
+::: {#thm-bisimilarity-vs-trace-equivalende}
+### Bisimilarity vs Trace Equivalence
+\
+
+For transition systems $TS_1, TS_2$
+
+$$TS_1 \sim TS_2 \Rightarrow TS_1 \equiv_{trace} TS_2$$
+
+For **AP-deterministic** transition systems $TS_1, TS_2$
+
+$$TS_1 \sim TS_2 \Leftrightarrow TS_1 \equiv_{trace} TS_2$$
+:::
+
+::: {#cor-bisimilarity-and-ctl-equivalence}
+For  transition system TS and states $s, s'$ it is **equivalent**:
 
 * $s \sim s'$
 * $s \equiv_{CTL} s'$
@@ -1015,7 +1096,7 @@ $$\exists i.\exists c_1,...,c_i.  (g = f|_{[v_1=c_1,...,v_i = c_i]})$$
 
 In other words 
 
-$$ g : 2^{n-i} \rightarrow \{0, 1\} \ , \ (x_{i+1}, ... x_{n}) \mapsto f(\textcolor{gray}{c_1,...,c_i},x_{i+1}, ..., x_n)$$
+$$g : 2^{n-i} \rightarrow \{0, 1\} \ , \ (x_{i+1}, ... x_{n}) \mapsto f(\textcolor{gray}{c_1,...,c_i},x_{i+1}, ..., x_n)$$
 
 <!-- include subtree image -->
 :::
