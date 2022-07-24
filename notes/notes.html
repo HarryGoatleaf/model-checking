@@ -2902,7 +2902,7 @@ Not practical
 </ul></li>
 <li>temporal operators:
 <ul>
-<li>“release” <span class="math inline">\(\varphi\textbf{R}\psi := \neg (\neg \varphi\textbf{U}\psi)\)</span></li>
+<li>“release” <span class="math inline">\(\varphi\textbf{R}\psi := \neg (\neg \varphi\textbf{U}\neg \psi)\)</span></li>
 <li>“weak until” <span class="math inline">\(\varphi\textbf{W}\psi := (\varphi\textbf{U}\psi) \lor \square\varphi\)</span></li>
 <li>“strong release” <span class="math inline">\(\varphi\textbf{M}\psi := (\varphi\textbf{R}\psi) \land \diamond\varphi\)</span></li>
 </ul></li>
@@ -3056,7 +3056,7 @@ Size of NBA can be exponential
 <p><span class="theorem-title"><strong>Definition 17 (CTL) </strong></span>For a set of atomic propositions <span class="math inline">\(\texttt{AP}\)</span> we give the BNF grammar for <strong>CTL state-formulas</strong>:</p>
 <ul>
 <li><span class="math inline">\(\Phi = a \text{ for } a \in \texttt{AP}\)</span></li>
-<li><span class="math inline">\(\Phi = \texttt{true}\mid \varphi\lor \varphi\mid \neg \varphi\)</span></li>
+<li><span class="math inline">\(\Phi = \texttt{true}\mid \Phi \lor \Phi \mid \neg \Phi\)</span></li>
 <li><span class="math inline">\(\Phi = \exists \varphi\mid \forall \varphi\)</span></li>
 </ul>
 <p>And the following grammar for <strong>CTL path-formulas</strong>:</p>

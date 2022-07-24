@@ -545,7 +545,7 @@ Time complexity: $O( |TS| \cdot 2^{|\phi|} )$
 For a set of atomic propositions $\AP$ we give the BNF grammar for **CTL state-formulas**:
 
 * $\Phi = a \text{ for } a \in \AP$
-* $\Phi = \true \mid \phi \lor \phi \mid \neg \phi$
+* $\Phi = \true \mid \Phi \lor \Phi \mid \neg \Phi$
 * $\Phi = \exists \phi \mid \forall \phi$
 
 And the following grammar for **CTL path-formulas**:
