@@ -226,18 +226,6 @@ LT property $L$ over $\AP$ is a **liveness property** iff.
 $$pref(L) = {2^{\AP}}^*$$
 :::
 
-::: {#def-w-regular-expression}
-#### $\w$-regular Expression
-An $\w$-regular expression has the form:
-
-$$G = E_1.F_1^\w + ... + E_n.F_n^\w$$
-
-where $E_i, F_i$ are regular expressions.
-
-If a LT property can be defined by an $\w$-regular expression
-we call it $\w$-*regular property*
-:::
-
 ::: {#thm-trace-inclusion-lt-properties}
 Let $TS, TS'$ be transition systems without terminal states:
 
@@ -256,7 +244,20 @@ Traces_{fin}(TS) \quad & \subseteq \quad Traces_{fin}(TS') \\
 TS' \models P \quad & \Rightarrow \quad TS \models P 
 , \text{ for all \textbf{safety} props } P\\
 \end{align}
+:::
 
+## $\w$-regular LT-properties
+
+::: {#def-w-regular-expression}
+#### $\w$-regular Expression
+An $\w$-regular expression has the form:
+
+$$G = E_1.F_1^\w + ... + E_n.F_n^\w$$
+
+where $E_i, F_i$ are regular expressions.
+
+If a LT property can be defined by an $\w$-regular expression
+we call it $\w$-*regular property*
 :::
 
 ::: {#cor-trace-equivalence}
@@ -329,8 +330,7 @@ Determinism    | NFA = DFA                  | DBA $\subsetneq$ NBA
 
 : NFA vs. NBA
 
-<!-- lecture 6 start -->
-## Verifying $\w$-regular Safety Properties
+### Verifying $\w$-regular Safety Properties
 
 Idea
 : Define Büchi automaton $\mathfrak{A}$ for _bad behaviour_ $E$.
