@@ -397,7 +397,7 @@ Additionally we will use the following **derived operators**:
   * "eventually" $\dia \phi := \true \U \phi$ 
   * "always" $\box \phi := \neg \dia \neg \phi$
 * temporal operators:
-  * "release" $\phi \R \psi := \neg (\neg \phi \U \psi)$
+  * "release" $\phi \R \psi := \neg (\neg \phi \U \neg \psi)$
   * "weak until" 
     $\phi \W \psi := (\phi \U \psi) \lor \box \phi$ 
   * "strong release"
