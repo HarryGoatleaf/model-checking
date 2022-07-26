@@ -211,22 +211,25 @@ Closure
 A LT property $S$ over $\AP$ is a **safety property** if for all
 $\sigma \in (2^{\AP})^\omega \setminus S$
 we can find a "bad prefix" $\hat{\sigma}$
-such that no word in $S$ has prefix $\hat{\sigma}$
+such that no word in $S$ has prefix $\hat{\sigma}$.
 
-$$ cl(S) = S $$
+This is equivalent to:
+$$cl(S) = S$$
 :::
-
-Trace Equivalence != Finite Trace Equivalence
-<!-- TODO: note -->
 
 ::: {#def-liveness-property}
 ### Liveness Property
-LT property $L$ over $\AP$ is a **liveness property** iff.
+LT property $L$ over $\AP$ is a **liveness property** iff. it "does not exclude a any finite execution":
 
-$$pref(L) = {2^{\AP}}^*$$
+$$pref(L) = ({2^{\AP}})^*$$
+
+This is equivalent to:
+$$cl(L) = 2^{\AP}$$
 :::
 
 ::: {#thm-trace-inclusion-lt-properties}
+### LT-Properties vs Traces
+
 Let $TS, TS'$ be transition systems without terminal states:
 
 \begin{align}
@@ -246,6 +249,40 @@ TS' \models P \quad & \Rightarrow \quad TS \models P
 \end{align}
 :::
 
+::: {#cor-trace-equivalence}
+$Traces(TS) = Traces(TS')$ iff. $TS$ and $TS'$ satisfy the same LT properties and analogously \
+$Traces_{fin}(TS) = Traces_{fin}(TS')$ iff. $TS$ and $TS'$
+satisfy the same safety properties.
+:::
+
+::: {.callout-note collapse=true}
+### Finite Trace Equivalence $\neq$ Trace Equivalence
+
+![](./pics/finite-trace-equivalence.png)
+
+Here
+$Traces_{fin}(\mathcal{T}) \subseteq Traces_{fin}(\mathcal{T'})$
+but 
+$Traces(\mathcal{T}) \not \subseteq Traces(\mathcal{T'})$
+:::
+
+::: {#lem-finite-image-trace}
+If $\mathcal{T}'$ is image finite (ger: endlich verzweigt) we know that:
+
+$$Traces_{fin}(\mathcal{T}) \subseteq Traces_{fin}(\mathcal{T'}) \Leftrightarrow Traces(\mathcal{T}) \not \subseteq Traces(\mathcal{T'})$$
+:::
+
+::: {#thm-decomposition}
+### Decomposition Theorem
+
+For every LT-property $P$ we can find a safety-property $E_{save}$ and a liveness-propery $E_{live}$ such that
+$$P = E_{save} \cap E_{live}$$
+
+one possible decomposition is given by
+
+$$P = \underbrace{cl(P)}_{E_{safe}} \cap \underbrace{(P \cup ((2^\AP)^\w \setminus cl(P))}_{E_{live}}$$
+:::
+
 ## $\w$-regular LT-properties
 
 ::: {#def-w-regular-expression}
@@ -258,19 +295,6 @@ where $E_i, F_i$ are regular expressions.
 
 If a LT property can be defined by an $\w$-regular expression
 we call it $\w$-*regular property*
-:::
-
-::: {#cor-trace-equivalence}
-$Traces(TS) = Traces(TS')$ iff. $TS$ and $TS'$ satisfy the same LT properties and analogously \
-$Traces_{fin}(TS) = Traces_{fin}(TS')$ iff. $TS$ and $TS'$
-satisfy the same safety properties.
-:::
-
-::: {#lem-finite-image-trace}
-If $TS'$ is image finite (ger: endlich verzweigt) we know that:
-
-$$Traces(TS) \subseteq Traces(TS') \Leftrightarrow
-  Traces_{fin}(TS) \subseteq Traces_{fin}(TS')$$
 :::
 
 ::: {#def-synchronous-product}
@@ -602,7 +626,40 @@ tips
 
 ### CTL Model Checking
 
-Fixpoint iteration
+First bring the formula into existential normal form.
+
+\begin{align}
+Sat(\true)                  &= S \\
+Sat(a)                      &= \{ s \in S \mid a \in L(s) \} \\
+Sat(\neg \Phi)              &= S \setminus Sat(\Phi) \\
+Sat(\Phi \land \Psi)        &= Sat(\Phi) \cap Sat(\Psi) \\
+Sat(\exists \next \Phi)     &= \{s \in S \mid Post(s) \cap Sat(\Phi) \neq \emptyset \}\\
+Sat(\exists \box \Phi)      &= \{s \in S \mid 
+                                 \exists \Phi \text{-lasso starting in }s\}\\
+Sat(\exists (\Phi \U \Psi)) &= \{s \in S \mid
+                                 \exists \Phi \text{-path from }s
+                                 \text{ to a } \Psi \text{-node} \}\\
+\end{align}
+
+#### How to find nodes with a $\Phi$-lassos *with Fixpoints*
+
+1. Delete all $s$ where $s \not \models \Phi$
+2. Delete $s$ if it has no (undeleted) successors.
+3. Repeat until no change. (This is the *fixpoint* part of the algo)
+
+#### How to find nodes with a $\Phi$-lassos *with SCCs*
+
+1. Delete all $s$ where $s \not \models \Phi$
+2. Find all (non-trivial)^[>0 transition] SCCs. 
+   These will form the loop part of the lasso.
+3. Find all nodes from which an SCC from Step 2 is reachable.
+   This is the rope part of the lasso.
+
+#### How to find nodes with a $\Phi$-path to a $\Psi$-node *with Fixpoints*
+
+1. Mark all $\Psi$-nodes
+2. Mark all predecessors of marked nodes
+3. Repeat until no change. (This is the *fixpoint* part of the algo)
 
 ## Complexity landscape
 
@@ -707,18 +764,52 @@ Fairness **limits** the set of traces we consider when doing model checking.
 
 We want to remove traces that we consider *unrealistic*.
 
-### Types of Fairness
-
 Which fairness notion?:
 
 * strong fairness good for contentions
 * weak fairness good for unfair scheduling
 
+Fairness is concerned with a fair resolution of **non-determinism**.
+
+::: {#def-ltl-fairness}
+### LTL Fairness Constraints
+
+An LTL fairness constraint is of the form:
+$$fair = ufair \land sfair \land wfair$$
+where
+
+1. **unconditional** fairness constraint: $ufair = \box \dia \psi$
+2. **strong** fairness constraint: $sfair = \box \dia \phi \rightarrow \box \dia \psi$
+3. **weak** fairness constraint: $wfair = \dia \box \phi \rightarrow \box \dia \phi$
+:::
+
+::: {#cor-fairness-suffix}
+### Fairness Suffix Property
+
+For any fair path $\pi$ it holds
+
+1. all suffixes of $\pi$ are fair
+2. for any finite path fragment $\sigma$ the extension $\sigma.\pi$ is fair
+:::
+
+::: {#def-realisable-fairness}
 ### Realisable Fairness
 
-### Model Checking Problems
+A fairness assumption $fair$ is **realisable** for $TS$ iff. for all reachable states $s$:
+$$FairPaths_{fair}(s) = \{\pi \in Paths(s) \mid \pi \models fair \} \neq \emptyset$$
 
-LTL Fairness Model Checking
+this is equivalent to
+
+Every initial finite path fragment can be completed to a fair run.
+:::
+
+::: {#cor-realisable-fairness-safety}
+### Safety Properties are preserved under realisable fairness
+
+$$TS \models E_{safe} \text{ iff. } TS \models_{fair} E_{safe}$$
+:::
+
+### LTL Fairness Model Checking
 
 * transition system $TS$
 * LTL formula $\phi$
@@ -728,7 +819,7 @@ Question: does $TS \models_{fair} \phi$
 
 Can be reduced to normal model checking by considering $(fair \rightarrow \phi)$
 
-CTL Fairness Model Checking
+### CTL Fairness Model Checking
 
 * transition system $TS$
 * CTL formula $\phi$
@@ -1029,6 +1120,8 @@ that satisfies the following conditions:
    If an enabled action is not selected, then all selected actions are stutter actions.
    $\forall s. (ample(s) \neq Act(s) \rightarrow ample(s) \subseteq Act_{stutter})$
 4. **Cycle condition**
+   Any action in $\Act(s_i)$ (in TS) with $s_i$ on a cycle in $TS_{red}$ must be selected
+   in some $s_i$ on that cycle.
    
 <!-- TODO: make shure finite/infinite is correkt -->
 :::
